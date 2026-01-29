@@ -1,10 +1,12 @@
-import GridOne from './components/one/Grid' 
+// import GridOne from './components/one/Grid' 
+import Gridtwo from './components/two/Grid'
 
 function App() {
 
   return (
     <>
-      <GridOne />
+      <Gridtwo />
+      {/* <GridOne /> */}
     </>
   )
 }
