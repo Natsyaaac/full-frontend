@@ -67,8 +67,6 @@ html {
 }
 
 body {
-  background-color: #f8fafc;
-  color: #334155;
   min-height: 100vh;
   transition: var(--transition);
   line-height: 1.6;
