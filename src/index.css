@@ -16,6 +16,10 @@ ol[role='list'] {
   list-style: none;
 }
 
+li {
+  list-style: none;
+}
+
 html:focus-within {
   scroll-behavior: smooth;
 }
@@ -70,7 +74,6 @@ body {
   min-height: 100vh;
   transition: var(--transition);
   line-height: 1.6;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
 }
-
-
-

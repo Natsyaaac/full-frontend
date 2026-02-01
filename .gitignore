@@ -26,8 +26,9 @@ dist-ssr
 # New volder 
 tesing
 assets
-/one
-/two
-/three
-/four 
-/five
+# ignore folder components tertentu
+src/components/one/
+src/components/two/
+src/components/three/
+src/components/four/
+src/components/five/
