@@ -11,8 +11,6 @@ node_modules
 dist
 dist-ssr
 *.local
-tesing
-assets
 
 # Editor directories and files
 .vscode/*
@@ -24,3 +22,12 @@ assets
 *.njsproj
 *.sln
 *.sw?
+
+# New volder 
+tesing
+assets
+one
+two
+three
+four 
+five
