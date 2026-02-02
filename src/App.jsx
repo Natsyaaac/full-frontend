@@ -4,7 +4,8 @@
 // import GridFour from './components/four/Grid'
 // import GridFive from './components/five/Grid'
 // import Gridsix from './components/six/Gird'
-import GridSeven from './components/seven/Grid'
+// `import GridSeven from './components/seven/Grid'`
+import GridEightt from './components/eight/Grid'
 
 function App() {
 
@@ -16,7 +17,8 @@ function App() {
       {/* <GridFour /> */}
       {/* <GridFive /> */}
       {/* <Gridsix /> */}
-      <GridSeven/>
+      {/* <GridSeven/> */}
+      <GridEightt />
     </>
   )
 }
