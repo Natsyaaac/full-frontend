@@ -61,6 +61,27 @@ function App() {
     unread: books.filter(book => !book.read).length, // total buku yang belum dibaca 
   }
 
+  // Fungsi untuk mengubah status "dibaca" pada buku
+  const toogleReadStatus = (id) => { // nilai disimpan di id 
+    setBooks(books.map(book =>   // Membuat salinan baru dari array books dengan status read diubah
+      book.id === id ? { ...book, read: !book.read } : book
+    ));
+
+    // jikaa book.id (yang di array sama dengan) id yang diterima 
+    // ...book salin semua array, 
+    // kembalikan nilai true jika buku false dan 
+    // read: !book.read
+    // kembalikan nilai false jika true 
+    // kalo gak ada biarkan buki aapa ada nya  : book
+  };
+
+  // fungsi untuk menghapus buku berddasarkana ID
+  const removeBook = (id) => { // id menyimpan nilai mana yang mau di hilangkan 
+    // Filter buku yang ID-nya tidak sama dengan id yang akan dihapus
+    setBooks(books.filter(book => book.id !== id)) // menggunakan filter() untuk menfilter array di dalamnya book sebagai parameter
+
+    // filter () membuat aray baru yang sudah di filter dengan (book => book.id !== id) dan disalin di setBooks dan di tampilkan aray itu 
+  }
 
   console.log('buku yanng sudah dibaca', stats.read)
   console.log('buku yang belum dibaca ', stats.unread)
@@ -79,7 +100,7 @@ function App() {
         <p className="subtitle">Menggunakana React useStaet untuk data yang berubah</p>
       </header>
 
-      <div className="app-main">
+      <main className="app-main">
         <section className="input-section">
           <h2>Tambah Buku Baru</h2>
           <div className="input-group">
@@ -188,14 +209,14 @@ function App() {
                   </div>
                   <div className="book-actions">
                     <button
-                      onClick={() => toggle}
-                      className={`action-btn`}
+                      onClick={() => toogleReadStatus(book.id)}
+                      className={`action-btn ${book.read ? 'mark unread' : 'mark-read'}`}
                     >
                       {book.read ? 'Tandai Belum Dibaca' : 'Tandai Sudah Dibaca'}
                     </button>
 
                     <button
-                      onClick={() => remov}
+                      onClick={() => removeBook(book.id)}
                       className='action-btn delete-btn'
                     >
                       Hapus
@@ -208,8 +229,33 @@ function App() {
         </section>
 
 
+        <section className="instructions">
+          <h3>Cara Menggunakan Aplikasi:</h3>
+          <div className="instruction-list">
+            <div className="instruction-item">
+              <span className="instruction-number">1</span>
+              <p>Isi form di atas untuk menambahkan buku ke koleksi Anda.</p>
+            </div>
+            <div className="instruction-item">
+              <span className="instruction-number">2</span>
+              <p>Gunakan tombol filter untuk menampilkan semua buku, yang sudah dibaca, atau yang belum dibaca.</p>
+            </div>
+            <div className="instruction-item">
+              <span className="instruction-number">3</span>
+              <p>Klik "Tandai Sudah Dibaca" atau "Tandai Belum Dibaca" untuk mengubah status buku.</p>
+            </div>
+            <div className="instruction-item">
+              <span className="instruction-number">4</span>
+              <p>Hapus buku dari koleksi dengan tombol "Hapus".</p>
+            </div>
+          </div>
+        </section>
+      </main>
 
-      </div>
+      <footer className="app-footer">
+        <p>Implementasi React useState dengan Flexbox, Grid, dan Media Query</p>
+        <p>Data disimpan dalam state komponen dan dapat berubah secara dinamis</p>
+      </footer>
     </div>
   )
 }
