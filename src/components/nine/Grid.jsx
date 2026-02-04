@@ -43,9 +43,9 @@ function TaskManagerApp() {
     }).length
   }
 
-  const addTask = () => { 
+  const addTask = () => {
     if (!newTask.title.trim()) { // Jika judul tas kosong kasih peringatan 
-      alert('Judul tugas harus diisi!'); 
+      alert('Judul tugas harus diisi!');
       return; // kembalikan ke semula
     }
 
@@ -73,6 +73,43 @@ function TaskManagerApp() {
       //[0]/ atau index pertama yaitu mengambil bagian tanggal nya saja 
     })
   }
+
+  const filteredAndSortedTasks = tasks
+    .filter(task => { // filter task
+
+      if (filterCategory !== 'all' && task.category !== filterCategory) return false; // jika category tidak sama dengan (all)/semua kategori dan task category (task.category) tidak sama dengan filter category jadi mengelompokan kategori tertentu saja 
+
+      // return false : kembalikan ke nilai false
+
+      if (filterPriority !== 'all' && task.priority !== filterPriority) return false; // jika prioritas tidak sama dengan (all)/semua prioritas dan task prioritas (task.priority) tidak sama dengan filter priority sama dengan yang kategori mengelompokan semua prioritas 
+
+      // return false : kembalikan ke nilai false
+
+      if (!showCompleted && task.completed) return false; // jika tidak selesai (!showCompleted) dan task completed 
+      // kembalikan ke nilai false
+
+      if (searchTerm && task.completed) return false; // jika search dan task complete task akan disembuyikan saat search
+      // kembalikan ke nilai false
+
+      if (searchTerm && !task.title.toLowerCase().includes(searchTerm.toLowerCase()) && !task.description.toLowerCase().includes(searchTerm.toLowerCase())) return false;
+
+      // kalau user mengetikan sesuatu dan tesk itu tidak ada di judul dan tidak ada di descriptionn buang task
+
+      return true; // jika lolos semua task ini dipakai
+    })
+    .sort((a, b) => {
+      switch (sortBy) { // switch case untuk sort 
+        case 'dueDate': // case jatuh tempo
+          return new Date(a.dueDate) - new Date(b.dueDate); // tanggal yang lebih kecil tampil dulu dari pada tanggal yang lebih besar 
+        case 'priority': // case prioritas 
+          const priorityOrder = { high: 1, medium: 2, low: 3 }; // mendefinisikan object medium low dan high object 
+          return priorityOrder[a.priority] - priorityOrder[b.priority]; // kembalikan nilai a dikurangi nikai b prioritas 
+        case 'title': // case title 
+          return a.title.localeCompare(b.title); // menggunakan localeCompare () membanding kan huruf a dan b 
+        default:
+          return 0; // kembalikan nili 0 yaitu mengosonhkan semua input 
+      }
+    })
 
   console.log('Task baru', newTask);
   console.log('Task baru hari ini', tasks)
@@ -192,8 +229,201 @@ function TaskManagerApp() {
               </button>
             </section>
 
+            <section className="filter-section">
+              <h3>🔍Filter & Urutkan</h3>
 
+              <div className="form-group">
+                <label htmlFor="search">Cari Tugas</label>
+                <input type="text"
+                  id='search'
+                  placeholder='Cari berdasarkan judul atau deskripsi...'
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className='form-input'
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="categoryFilter">Filter Kategori</label>
+                <select id="categoryFilter"
+                  value={filterCategory}
+                  onChange={(e) => setFilterCategory(e.target.value)}
+                  className='form-select'
+                >
+                  <option value="all">Semua Kategori</option>
+                  <option value="personal">Personal</option>
+                  <option value="kerja">Kerja</option>
+                  <option value="belajar">Belajar</option>
+                  <option value="kesehatan">Kesehatan</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="priorityFilter">Filter Prioritas</label>
+                <select id="priorityFilter"
+                  value={filterPriority}
+                  onChange={(e) => setFilterPriority(e.target.value)}
+                  className='form-select'
+                >
+                  <option value="all">Semua Prioritas</option>
+                  <option value="high">Tinggi</option>
+                  <option value="medium">Sedang</option>
+                  <option value="low">Rendah</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="sortBy">Urutkan Berdasarkan</label>
+                <select id="sortBy"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className='form-select'
+                >
+                  <option value="dueDate">Tanggal Jatuh Tempo</option>
+                  <option value="priority">Prioritas</option>
+                  <option value="title">Judul (A-Z)</option>
+                </select>
+              </div>
+
+              <div className="toggle-group">
+                <label className='toggle-label'>
+                  <input type="checkbox"
+                    checked={showCompleted}
+                    onChange={() => setShowCompleted(!showCompleted)}
+                    className='toggle-input'
+                  />
+                  <span className="toggle-slider"></span>
+                  <span className="toggle-text">Tampilkan tugas selesai</span>
+                </label>
+              </div>
+            </section>
           </aside>
+
+          <section className="main-content">
+            <div className="content-header">
+              <h2>📋Daftar Tugas</h2>
+              <div className="category-tags">
+                <button
+                  className={`category-tag $`}
+                  onClick
+                >
+                  Semua
+                </button>
+
+                <button
+                  className={`category-tag`}
+                  onClick
+                >
+                  👤 Personal
+                </button>
+
+                <button
+                  className={`category-tag`}
+                  onClick
+                >
+                  💼 Kerja
+                </button>
+
+                <button
+                  className={`category-tag`}
+                  onClick
+                >
+                  📚 Belajar
+                </button>
+
+                <button
+                  className={`category-tag`}
+                  onClick
+                >
+                  🏃 Kesehatan
+                </button>
+              </div>
+            </div>
+
+            {filteredAndSortedTasks.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-icon">📭</div>
+                <h3>Tidak ada tugas yang sesuai</h3>
+                <p>Coba ubah filter atau tambahkan tugas baru</p>
+              </div>
+            ) : (
+              <div className="task-grid">
+                {filteredAndSortedTasks.map(task => {
+                  const isOverdue = !task.completed && new Date(task.dueDate) < new Date();
+
+                  return (
+                    <div className={`task-card ${task.completed ? 'completed' : ''} ${isOverdue ? 'overdue' : ''}`}
+                    >
+                      <div className="task-header">
+                        <div className="task-category">
+                          <span className="category-icon">icon</span>
+                          <span className="category-name">{task.category}</span>
+                        </div>
+
+                        <div className="priority-badge"
+                          style={{ background: 'blue' }}
+                        >
+                          {task.priority === 'high' ? 'Tinggi' : task.priority == 'medium' ? 'Sedang' : 'Rendah'}
+                        </div>
+                      </div>
+
+                      <div className="task-body">
+                        <div className="task-title-row">
+                          <h3 className="task-title">{task.title}</h3>
+                          {task.completed && (
+                            <span className="completed-badge">✅ Selesai</span>
+                          )}
+                          {isOverdue && (
+                            <span className="overdue-badge">⚠️ Terlambat</span>
+                          )}
+                        </div>
+
+                        <p className="task-description">{task.description}</p>
+
+                        <div className="task-meta">
+                          <div className="due-date">
+                            <span className="meta-icon">📅</span>
+                            <span className="meta-text">
+                              Jatuh tempo: {new Date(task.dueDate).toLocaleDateString('id-ID')}
+                            </span>
+                            {isOverdue && (
+                              <span className="days-overdue">
+                                ({Math.ceil((new Date() - new Date(task.dueDate)) / (1000 * 60 * 60 * 24))} hari terlambat)
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="task-actions">
+                        <button
+                          onClick
+                          className={`action-btn`}
+                        >
+                          {task.completed ? '↩️ Batalkan' : '✅ Selesai'}
+                        </button>
+
+                        <button className="action-btn delete-btn"
+                          onClick
+                        >
+                          🗑️ Hapus
+                        </button>
+
+                        <button
+                          onClick
+                          className='action-btn edit-btn'
+                        >
+                          ✏️ Edit
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+
+          </section>
         </div>
       </main>
     </div>
