@@ -111,6 +111,40 @@ function TaskManagerApp() {
       }
     })
 
+  const getCategoryIcon = (category) => {  // mendefinisikan getCategoryIcon dengan parameter (category)
+    switch (category) { // menggunakan swirch case untuk menambah icon
+      case 'kerja': return '💼'; // case kerja kembalikan icon kerja 
+      case 'belajar': return '📚'; // case belajar kembalikan icon belajar
+      case 'personal': return '👤'; // case personal kembalikan icon belajar
+      case 'kesehatan': return '🏃'; // case kesehatan kembalikan icon kesehatan
+      default: return '📝'; // nilai default return catatan
+    }
+  }
+
+  const deleteTask = (id) => { // mendefiniskan deleteTask dengan parameter id
+    setTasks(tasks.filter(task => task.id !== id)) //setTask task.filter(menggunakan filter dari javascript)menyalin semua objeck, membuat parameter baru task.id tidak sama dengan id yang sudah di hapus 
+  }
+
+  const toggleComplete = (id) => { // mendefinisikan toggleComplete dengan parameter id
+    setTasks(tasks.map(task => // menyalin semua objeck di tasks aray dan menggunakan map untuk melihat isi objeck
+      task.id === id ? { ...task, completed: !task.completed } : task //jika task id sama task yang tidak completed diubah menjadi completed dan :task mengubah isi objeck
+    ))
+  }
+
+  const editTask = (id, updatedTask) => {  // mendefinisikan editTask dengan parameter (id, updatedTask)
+    setTasks(tasks.map(task => // menyalin semua object tasks menggunakan map dari javascipt jika task.id sama dengan id (upadte) set objeck tasks ke updateTask (yaitu mengubah title di object dan menyimpan ke baru : task)
+      task.id === id ? { ...task, ...updatedTask } : task
+    ))
+  }
+
+  const getPriorityColor = (priority) => { // medefiniskan getPriorityColor dengan parameter priority 
+    switch (priority) { // menggunakan switch untuk mengubah warna badge
+      case 'high': return '#ff6b6b'; // jika case 'high' kemablikan warna #ff6b6b
+      case 'medium': return '#ffd93d'; // jika case 'medium' kembalikan warna #ffd93d
+      case 'low': return '#6bcf7f'; // jika case 'low' kembalikan warna #6bcf7f
+      default: return '#cccccc'; // default return nilai warna #cccccc
+    }
+  };
   console.log('Task baru', newTask);
   console.log('Task baru hari ini', tasks)
 
@@ -301,39 +335,39 @@ function TaskManagerApp() {
 
           <section className="main-content">
             <div className="content-header">
-              <h2>📋Daftar Tugas</h2>
+              <h2>📋Daftar Tugas ({filteredAndSortedTasks.length})</h2>
               <div className="category-tags">
                 <button
-                  className={`category-tag $`}
-                  onClick
+                  className={`category-tag ${filterCategory === 'all' ? 'active' : ''}`}
+                  onClick={() => setFilterCategory('all')}
                 >
                   Semua
                 </button>
 
                 <button
-                  className={`category-tag`}
-                  onClick
+                  className={`category-tag ${filterCategory === 'personal' ? 'active' : ''}`}
+                  onClick={() => setFilterCategory('personal')}
                 >
                   👤 Personal
                 </button>
 
                 <button
-                  className={`category-tag`}
-                  onClick
+                  className={`category-tag ${filterCategory === 'kerja' ? 'active' : ''}`}
+                  onClick={() => setFilterCategory('kerja')}
                 >
                   💼 Kerja
                 </button>
 
                 <button
-                  className={`category-tag`}
-                  onClick
+                  className={`category-tag ${filterCategory === 'belajar' ? 'active' : ''}`}
+                  onClick={() => setFilterCategory('belajar')}
                 >
                   📚 Belajar
                 </button>
 
                 <button
-                  className={`category-tag`}
-                  onClick
+                  className={`category-tag ${filterCategory === 'kesehatan' ? 'active' : ''}`}
+                  onClick={() => setFilterCategory('kesehatan')}
                 >
                   🏃 Kesehatan
                 </button>
@@ -356,12 +390,12 @@ function TaskManagerApp() {
                     >
                       <div className="task-header">
                         <div className="task-category">
-                          <span className="category-icon">icon</span>
+                          <span className="category-icon">{getCategoryIcon(task.category)}</span>
                           <span className="category-name">{task.category}</span>
                         </div>
 
                         <div className="priority-badge"
-                          style={{ background: 'blue' }}
+                          style={{ background: getPriorityColor(task.priority) }}
                         >
                           {task.priority === 'high' ? 'Tinggi' : task.priority == 'medium' ? 'Sedang' : 'Rendah'}
                         </div>
@@ -397,20 +431,26 @@ function TaskManagerApp() {
 
                       <div className="task-actions">
                         <button
-                          onClick
-                          className={`action-btn`}
+                          onClick={() => toggleComplete(task.id)}
+                          className={`action-btn ${task.completed ? 'undo-btn' : 'complete-btn'}`}
                         >
                           {task.completed ? '↩️ Batalkan' : '✅ Selesai'}
                         </button>
 
                         <button className="action-btn delete-btn"
-                          onClick
+                          onClick={() => deleteTask(task.id)}
                         >
                           🗑️ Hapus
                         </button>
 
                         <button
-                          onClick
+                          onClick={() => {
+                            const newTile = prompt('Edit judul tugas:',
+                              task.title);
+                            if (newTile && newTile.trim()) {
+                              editTask(task.id, { title: newTile });
+                            }
+                          }}
                           className='action-btn edit-btn'
                         >
                           ✏️ Edit
@@ -422,10 +462,48 @@ function TaskManagerApp() {
               </div>
             )}
 
+            <div className="summary-section">
+              <h3>Ringkasan Productivitas</h3>
+              <div className="summary-cards">
+                <div className="summary-card">
+                  <h4>Presentase Penyelesaian</h4>
+                  <div className="progress-container">
+                    <div className="progress-bar"
+                      style={{ width: `${taskStats.total > 0 ? (taskStats.completed / taskStats.total) * 100 : 0}%` }}
+                    ></div>
+                  </div>
+                  <p className='progress-text'>
+                    {taskStats.total > 0 ? Math.round((taskStats.completed / taskStats.total) * 100) : 0}% tugas selesai
+                  </p>
+                </div>
 
+                <div className="summary-card">
+                  <h4>Prioritas Tertinggi</h4>
+                  <p className="priority-summary">
+                    <span className="priority-high">🚨 {taskStats.highPriority} tugas prioritas tinggi</span> belum selesai
+                  </p>
+                </div>
+
+                <div className="summary-card">
+                  <h4>Tugas Terlambat</h4>
+                  <p className="overdue-summary">
+                    {taskStats.overdue > 0 ? (
+                      <span className="overdue-alert">⚠️ {taskStats.overdue} tugas perlu perhatian segera!</span>
+                    ) : (
+                      <span className="on-time">🎉 Semua tugas tepat waktu!</span>
+                    )}
+                  </p>
+                </div>
+              </div>
+            </div>
           </section>
         </div>
       </main>
+
+      <footer className="app-footer">
+        <p>© 2023 Task Manager Pro - Implementasi React useState dengan Flexbox & Grid</p>
+        <p>Data tersimpan dalam state komponen dan diperbarui secara real-time</p>
+      </footer>
     </div>
   )
 
