@@ -1,0 +1,163 @@
+.app {
+  min-height: 100vh;
+  /* panjang dari kontainer untuk app  */
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.main-content {
+  flex: 1;
+  /* item flex akan mengisi ruang kosong yang tersedia */
+  max-width: 1000px;
+  /* lebar container */
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%;
+  /* agar bisa menyesuaikan ukuran deviice */
+}
+
+.lesson-section {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-left: 5px solid #667eea;
+  /* kenapa dia tidak dikasih width atau height karna elemen ini akan mengikuti lebar parent nya */
+}
+
+.lesson-description {
+  color: #666;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.auth-demo,
+.grid-demo,
+.flex-demo,
+.mediaquery-demo {
+  margin-top: 1.5rem;
+}
+
+.auth-demo h3,
+.grid-demo h3,
+.flex-demo h3,
+.mediaquery-demo h3 {
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.login-form {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 1px solid #e9ecef;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  /* karna dia sudah di flex 1 display box akan mengsisi ruang yang tersedia di kali elemen */
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.login-btn,
+.logout-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin-top: 0.5rem;
+}
+
+.login-btn:hover,
+.logout-btn:hover {
+  transform: translateY(-2px);
+}
+
+.hint {
+  margin-top: 0.8rem;
+  color: #666;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.welcome {
+  background: #e7f5ff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  border: 2px solid #4dabf7;
+}
+
+.welcome h3 {
+  color: #1971c2;
+  margin-bottom: 1rem;
+}
+
+.code-example {
+  background: #2d3436;
+  color: #dfe6e9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  overflow-x: auto;
+}
+
+.code-example h4 {
+  color: #74b9ff;
+  margin-bottom: 1rem;
+}
+
+.code-example pre {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.code-example ul {
+  padding-left: 1.5rem;
+}
+
+.code-example li {
+  margin-bottom: 0.5rem;
+  color: #dfe6e9;
+}

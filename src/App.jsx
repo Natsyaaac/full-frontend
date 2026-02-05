@@ -7,7 +7,7 @@
 // `import GridSeven from './components/seven/Grid'`
 // import GridEightt from './components/eight/Grid'
 // import Gridnine from './components/nine/Grid'
-import GridTen from './tesing/tes'
+import GridTen from './components/tenn/Grid'
 
 function App() {
 
