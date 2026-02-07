@@ -44,7 +44,7 @@ function App() {
       <main className="main-content">
         {isAuthenticated ? (
           // jika berhasil login tampilkan ini 
-          <Dashboard user={currentUser} onLogout={handleLogout} />
+          <DashboardAuth user={currentUser} onLogout={handleLogout} />
         ) : (
           // jika false atau tidak login tampilkan ini 
           <div className="auth-container">

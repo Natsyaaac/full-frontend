@@ -180,50 +180,44 @@
   text-decoration: underline;
 }
 
+.social-login {
+  margin-top: 25px;
+  text-align: center;
+}
 
+.social-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 15px;
+}
 
+.social-btn {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+  max-width: 200px;
+}
 
+.social-btn.google:hover {
+  background-color: #f1f1f1;
+  border-color: #ccc;
+}
 
+.social-btn.facebook {
+  background-color: #3b5998;
+  color: white;
+  border-color: #3b5998;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.social-btn.facebook:hover {
+  background-color: #344e86;
+}
 
 /* footer */
 .app-footer {
@@ -249,4 +243,231 @@
   border-radius: 20px;
   font-size: 0.9rem;
   color: #495057;
+}
+
+.dashboard-container {
+  padding: 20px;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.dashboard-header h2 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-card h3 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.profile-card .profile-info{
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  background-color: #3498db;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: white;
+  font-weight: bold;
+}
+
+.profile-details p {
+  margin-bottom: 10px;
+}
+
+/* Stats grid menggunakan CSS Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.stat-number {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #3498db;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* Actions list menggunakan Flexbox */
+.actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-btn {
+  padding: 12px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+}
+
+.action-btn:hover {
+  background-color: #e9ecef;
+  border-color: #3498db;
+}
+
+.logout-action {
+  background-color: #fff5f5;
+  color: #e74c3c;
+  border-color: #fde8e8;
+}
+
+.logout-action:hover {
+  background-color: #fde8e8;
+  border-color: #e74c3c;
+}
+
+/* Activity list */
+.activity-list {
+  list-style-type: none;
+}
+
+.activity-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.activity-list li:last-child {
+  border-bottom: none;
+}
+
+/* Footer menggunakan Flexbox */
+.app-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 25px 0;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+  color: #666;
+}
+
+.tech-tags {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.tech-tags span {
+  background-color: #e9ecef;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+/* Media Queries untuk Responsif */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 0 15px;
+  }
+  
+  .app-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .profile-card .profile-info {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .social-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .social-btn {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .auth-form {
+    padding: 20px;
+  }
+  
+  .tab-btn {
+    padding: 12px;
+    font-size: 1rem;
+  }
+  
+  .form-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tech-tags {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
