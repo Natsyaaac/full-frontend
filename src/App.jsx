@@ -1,10 +1,11 @@
-import GridOne from './components/OneEl/AppAuth'
+
+import GridTwoo from './components/TwoEl/App'
 
 function App() {
 
   return (
     <>
-    <GridOne />
+      <GridTwoo />
     </>
   )
 }

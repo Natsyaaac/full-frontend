@@ -1,0 +1,267 @@
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --secondary: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --dark: #1f2937;
+  --light: #f9fafb;
+  --gray: #6b7280;
+  --border: #e5e7eb;
+  --radius: 12px;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  gap: 30px;
+}
+
+.app-header {
+  background: white;
+  border-radius: var(--radius);
+  padding: 24px 32px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.shield {
+  font-size: 32px;
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+
+.security-tag {
+  display: flex;
+  gap: 10px;
+}
+
+.tag {
+  padding: 6px 12px;
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.main-content {
+  display: grid;
+  gap: 30px;
+}
+
+.login-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.login-info {
+  background: white;
+  padding: 32px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.login-info h2 {
+  margin-bottom: 16px;
+  color: var(--dark);
+}
+
+.feature-list {
+  margin-top: 24px;
+}
+
+.feature-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.security-logs {
+  margin-top: 30px;
+  background: white;
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.security-logs h4 {
+  margin-bottom: 16px;
+  color: var(--dark);
+}
+
+.logs-container {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.log-entry {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+}
+
+.log-entry:last-child {
+  border-bottom: none;
+}
+
+.log-entry.success {
+  color: var(--secondary);
+  background: #f0fdf4;
+}
+
+.log-entry.info {
+  color: var(--gray);
+  background: #f8fafc;
+}
+
+.log-entry.warning {
+  color: var(--warning);
+  background: #fffbeb;
+}
+
+.log-time {
+  font-family: monospace;
+  color: var(--gray);
+  min-height: 80px;
+}
+
+.log-message {
+  flex: 1;
+}
+
+
+.app-footer {
+  text-align: center;
+  color: var(--gray);
+  font-size: 0.875rem;
+  padding-top: 1px solid var(--border);
+}
+
+.app-footer small {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.login-container {
+  background: white;
+  padding: 32px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.login-header h2 {
+  font-size: 1.75rem;
+  margin-bottom: 8px;
+  color: var(--dark);
+}
+
+.login-header p {
+  color: var(--gray);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.label-icon {
+  font-size: 1.2rem;
+}
+
+input, textarea, select {
+  padding: 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+input.error, textarea.error, select.error {
+  border-color: var(--danger);
+}
+
+.password-input {
+  position: relative;
+}
+
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--gray);
+}
