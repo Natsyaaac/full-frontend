@@ -1,6 +1,7 @@
 import './styles.css'
 import { useState } from 'react';
 import LoginForm from './LoginForm';
+import Dashboard from './Dashboard'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -51,9 +52,7 @@ function App() {
 
       <main className="main-content">
         {isAuthenticated ? (
-          <div className="">
-            <p>p</p>
-          </div>
+          <Dashboard user={currentUser} onLogout={handleLogout} />
         ) : (
           <div className="login-page">
             <div className="login-info">

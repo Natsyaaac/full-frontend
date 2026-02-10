@@ -28,6 +28,43 @@ const Dashboard = ({ user, onLogout }) => {
             <small>Last login: {new Date(user.loginTime).toLocaleString()}</small>
           </div>
         </div>
+
+        <button className="logout-btn" onClick={onLogout}>
+          Logout
+        </button>
+      </div>
+
+      <div className="dashboard-content">
+        <div className="security-controls">
+          <div className="control-group">
+            <label className="switch">
+              <input type="checkbox" 
+                checked={isSafeMode}
+                onChange={(e) => setIsSafeMode(e.target.checked)}
+              />
+              <span className="slider"></span>
+            </label>
+
+            <div className="control-label">
+              <strong>Safe Mode: {isSafeMode ? 'ON' : 'OFF'}</strong>
+              <small>
+                {isSafeMode
+                 ? 'Semua input disanitasi untuk mencegah XSS'
+                 : '⚠️ Mode tidak aman - input tidak disanitasi'}
+              </small>
+            </div>
+          </div>
+
+          <div className="security-stats">
+            <div className="stat-item">
+              <div className="stat-label">XSS Attempts Blocked:</div>
+              <span className="stat-value">{xssAttempts}</span>
+            </div>
+          </div>
+        </div>
+
+
+
       </div>
     </div>
   )
