@@ -184,6 +184,11 @@
   color: #9ca3af;
 }
 
+
+
+/* =================
+  LOGIN CONTAINER 
+  =================*/
 .login-container {
   background: white;
   padding: 32px;
@@ -361,6 +366,17 @@ select.error {
 }
 
 
+.sanitized-priview {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.875rem;
+  color: var(--gray);
+}
+
 .password-strength {
   margin-top: 12px;
 }
@@ -389,7 +405,7 @@ select.error {
 }
 
 .status-indicator {
-   width: 10px;
+  width: 10px;
   height: 10px;
   border-radius: 50%;
 }
@@ -404,6 +420,83 @@ select.error {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.xss-test-panel h4 {
+  margin-bottom: 12px;
+  color: var(--dark);
+}
+
+.test-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.test-btn {
+  padding: 10px 16px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;  
+}
+
+.test-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.input-history {
+  margin-top: 30px;
+}
+
+.history-list {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 16px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 0.875rem;
+}
+
+.history-time {
+  color: var(--gray);
+  font-family: monospace;
+}
+
+.history-field {
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.history-value {
+  flex: 1;
+  font-family: monospace;
+  color: var(--gray);
+}
+
+.history-warning {
+  color: var(--danger);
 }

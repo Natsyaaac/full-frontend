@@ -122,6 +122,7 @@ const LoginForm = ({ onLogin }) => {
     setFormData(prev => ({ // membuat object palsu 
       ...prev,
       username: testCase, // set nama dari array yang sudah menyimpan object 
+      email: 'user@example.com',
       password: 'test123' // set password test123 
     }))
 
@@ -180,7 +181,7 @@ const LoginForm = ({ onLogin }) => {
             onChange={handleInputChange}
             placeholder='Enter yout username'
             className={errors.username ? 'error' : ''}
-            maxLength='50'
+            maxLength='40'
           />
           {errors.username && <div className="error-message">{errors.username}</div>}
 
@@ -270,19 +271,51 @@ const LoginForm = ({ onLogin }) => {
         </button>
 
         <div className="security-status">
-          <div className={`status-indicator ${xssDetections.length > 0 ? 'danger' : 'safe'}`}>
-            <span>
-              {xssDetections.length > 0 ? `${xssDetections.length} XSS Attempt(s) Blocked` : 'No threats detected'}
-            </span>
-          </div>
+          <div className={`status-indicator ${xssDetections.length > 0 ? 'danger' : 'safe'}`} />
+          <span>
+            {xssDetections.length > 0 ? `${xssDetections.length} XSS Attempt(s) Blocked` : 'No threats detected'}
+          </span>
         </div>
       </form>
 
+      <div className="xss-test-panel">
+        <h4>🧪 XSS Test Cases</h4>
+        <p className="test-description">
+          Try these XSS patterns to see how they're sanitized:
+        </p>
+        <div className="test-buttons">
+          {testCases.map((test, index) => (
+            <button className="test-btn"
+              key={index}
+              type='button'
+              onClick={() => testXSS(test.value)}
+            >
+              {test.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
-
+      {inputHistory.length > 0 && (
+        <div className="input-history">
+          <h4>📝 Input History</h4>
+          <div className="history-list">
+            {inputHistory.map((entry, index) => (
+              <div key={index} className="history-item">
+                <div className="history-time">{entry.timestamp}</div>
+                <div className="history-field">{entry.field}:</div>
+                <div className="history-value">{entry.value}</div>
+                {entry.xssDetected && (
+                  <span className="history-warning">⚠️</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default LoginForm
 
