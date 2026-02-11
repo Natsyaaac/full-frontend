@@ -431,6 +431,14 @@ select.error {
   }
 }
 
+.xss-test-panel {
+  margin: 30px;
+  padding: 20px;
+  background: var(--light);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
 .xss-test-panel h4 {
   margin-bottom: 12px;
   color: var(--dark);
@@ -451,7 +459,7 @@ select.error {
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s;  
+  transition: all 0.3s;
 }
 
 .test-btn:hover {
@@ -575,6 +583,12 @@ select.error {
   gap: 16px;
 }
 
+.control-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .switch {
   position: relative;
   display: inline-block;
@@ -612,19 +626,23 @@ select.error {
   border-radius: 50%;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: var(--secondary);
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   transform: translateX(26px);
 }
+
+
+
 
 .stat-label {
   font-size: 0.875rem;
   color: var(--gray);
   margin-bottom: 4px;
 }
+
 
 .stat-value {
   font-size: 1.5rem;

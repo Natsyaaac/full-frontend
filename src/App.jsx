@@ -1,5 +1,5 @@
 
-import GridTwoo from './tesing/App'
+import GridTwoo from './components/TwoEl/App'
 
 function App() {
 

@@ -14,7 +14,7 @@ const Dashboard = ({ user, onLogout }) => {
     { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'User' }
   ]);
 
-  
+
   return (
     <div className="dashboard">
       <div className="dashboard-header">
@@ -38,7 +38,7 @@ const Dashboard = ({ user, onLogout }) => {
         <div className="security-controls">
           <div className="control-group">
             <label className="switch">
-              <input type="checkbox" 
+              <input type="checkbox"
                 checked={isSafeMode}
                 onChange={(e) => setIsSafeMode(e.target.checked)}
               />
@@ -49,22 +49,67 @@ const Dashboard = ({ user, onLogout }) => {
               <strong>Safe Mode: {isSafeMode ? 'ON' : 'OFF'}</strong>
               <small>
                 {isSafeMode
-                 ? 'Semua input disanitasi untuk mencegah XSS'
-                 : '⚠️ Mode tidak aman - input tidak disanitasi'}
+                  ? 'Semua input disanitasi untuk mencegah XSS'
+                  : '⚠️ Mode tidak aman - input tidak disanitasi'}
               </small>
             </div>
           </div>
 
           <div className="security-stats">
             <div className="stat-item">
-              <div className="stat-label">XSS Attempts Blocked:</div>
+              <span className="stat-label">XSS Attempts Blocked:</span>
               <span className="stat-value">{xssAttempts}</span>
             </div>
           </div>
         </div>
 
+        <div className="content-section">
+          <h3>Content Editor</h3>
+          <p className="section-description">
+            {isSafeMode
+              ? '🔒 Input aman: Semua script dan HTML berbahaya akan disanitasi'
+              : '⚠️ Mode berbahaya: Input akan ditampilkan apa adanya'}
+          </p>
+
+          <form onSubmit className="content-form">
+            <div className="form-group">
+              <label>Enter Content (try XSS):</label>
+              <textarea
+                value
+                onChange
+                placeholder="Try: <script>alert('xss')</script>"
+                rows="4"
+              />
+              <div className="form-hint">
+                Mode: <strong>{isSafeMode ? 'Safe' : 'Unsafe'}</strong> |
+                Length: {userContent.length} chars
+              </div>
+            </div>
+
+            <div className="form-actions">
+              <button className="btn-primary">
+                Display Content
+              </button>
+
+              <button className="btn-secondary"
+                onClick
+                type="button"
+              >
+                Load Dangerous Example
+              </button>
+
+              <button className="btn-clear"
+                type="button"
+                onClick
+              >
+                Clear
+              </button>
+            </div>
+          </form>
 
 
+          
+        </div>
       </div>
     </div>
   )
