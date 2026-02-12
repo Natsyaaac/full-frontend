@@ -14,6 +14,39 @@ const Dashboard = ({ user, onLogout }) => {
     { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'User' }
   ]);
 
+  const dangerousContent = '<script>alert("XSS Attack!")</script><p style="color: red;">This is dangerous</p>';
+
+  const handleContentSubmit = (e) => {  // variable handleContentSubmit untuk pengecekan karakter berbahaya 
+    e.preventDefault(); // pencegahan default browser 
+
+    if (isSafeMode) {  // mode aman 
+      const sanitized = sanitizeForHTML(userContent); // untuk menyimpan sanitized dengan parameter userContent 
+      setDisplayContent(sanitized); // sanitasi seblum content ditampilkan 
+
+      if (sanitized !== userContent) { // pengecekan jika ada kontent yang di sanitasi 
+        setXssAttempts(prev => prev + 1) // tmenambahkan counter percobaan XSS sebagai monitoring keamanan 
+        alert('⚠️ Potensi XSS terdeteksi dan telah disanitasi!') // kasih alert 
+      }
+    } else {
+      setDisplayContent(userContent); // tetap tampilkan konten walaupun tidak di sanitasi (hanyak untuk demo )
+      alert(`⚠️ PERINGATAN: Mode tidak aman aktif! Input tidak disanitasi!`) // kasih alert 
+    }
+  };
+
+  const addUser = (userData) => {  // melakukan penambahan data user 
+    const sanitizedUser = {  // untuk mbuat objeck dari user saat melakukan input untuk menjaga imuntabilty dan menghindari modifikasi langsung terhadap userData
+      ...userData, // menyalin semua inputan user 
+      name: escapeHTML(userData.name), // mensanitasi untuk inputan user nama
+      email: escapeHTML(userData.email), // mensanitasi untuk inputan user email
+      role: escapeHTML(userData.role) // mensanitasi untuk inputan user role
+    };
+
+    setUsers(prev => [...prev, { ...sanitizedUser, id: Date.now() }])  // setiap user menambahkan data tetapkan id waktu sekarang dengan menggunakan Date.now
+  };
+
+  const deleteUser = (userId) => {  // melakukan pengahpusah data user 
+    setUsers(prev => prev.filter(user => user.id !== userId)) // jika user menghapus data nya salin semua data dan tetapkan yang ada selain yang dihapus 
+  }; 
 
   return (
     <div className="dashboard">
@@ -71,12 +104,12 @@ const Dashboard = ({ user, onLogout }) => {
               : '⚠️ Mode berbahaya: Input akan ditampilkan apa adanya'}
           </p>
 
-          <form onSubmit className="content-form">
+          <form onSubmit={handleContentSubmit} className="content-form">
             <div className="form-group">
               <label>Enter Content (try XSS):</label>
               <textarea
-                value
-                onChange
+                value={userContent}
+                onChange={(e) => setUserContent(e.target.value)}
                 placeholder="Try: <script>alert('xss')</script>"
                 rows="4"
               />
@@ -92,7 +125,7 @@ const Dashboard = ({ user, onLogout }) => {
               </button>
 
               <button className="btn-secondary"
-                onClick
+                onClick={() => setUserContent(dangerousContent)}
                 type="button"
               >
                 Load Dangerous Example
@@ -100,15 +133,65 @@ const Dashboard = ({ user, onLogout }) => {
 
               <button className="btn-clear"
                 type="button"
-                onClick
+                onClick={() => {
+                  setUserContent('');
+                  setDisplayContent('');
+                }}
               >
                 Clear
               </button>
             </div>
           </form>
 
+          <div className="display-section">
+            <h4>Display Output:</h4>
+            <div className={`display-area ${isSafeMode ? 'safe' : 'unsafe'}`}>{displayContent ? (
+              <>
+                <div className="raw-output">
+                  <strong>Raw HTML:</strong>
+                  <pre>{displayContent}</pre>
+                </div>
 
-          
+                <div className="rendered-output">
+                  <strong>Rendered:</strong>
+                  <div
+                    className="output-content"
+                    dangerouslySetInnerHTML={{ __html: displayContent }}></div>
+                </div>
+              </>
+            ) : (
+              <div className="empty-content">
+                <p>No content to display. Try entering something above.</p>
+              </div>
+            )}
+            </div>
+
+            {displayContent && (
+              <div className="security-analysis">
+                <h5>Security Analysis:</h5>
+                <div className="analysis-grid">
+                  <div className="analysis-item">
+                    <span className="analysis-label">Script Tags:</span>
+                    <span className={`analysis-value ${displayContent.includes('<script') ? 'danger' : 'safe'}`}>
+                      {displayContent.includes('<script') ? 'Found' : 'None'}
+                    </span>
+                  </div>
+                  <div className="analysis-item">
+                    <span className="analysis-label">Event Handlers:</span>
+                    <span className={`analysis-value ${/on\w+=/i.test(displayContent) ? 'danger' : 'safe'}`}>
+                      {/on\w+=/i.test(displayContent) ? 'Found' : 'None'}
+                    </span>
+                  </div>
+                  <div className="analysis-item">
+                    <span className="analysis-label">JavaScript URLs:</span>
+                    <span className={`analysis-value ${/javascript:/i.test(displayContent) ? 'danger' : 'safe'}`}>
+                      {/javascript:/i.test(displayContent) ? 'Found' : 'None'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

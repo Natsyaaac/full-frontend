@@ -634,9 +634,6 @@ input:checked+.slider:before {
   transform: translateX(26px);
 }
 
-
-
-
 .stat-label {
   font-size: 0.875rem;
   color: var(--gray);
@@ -648,4 +645,126 @@ input:checked+.slider:before {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--primary);
+}
+
+.content-section {
+  background: white;
+  border: 1px solid var(--border);
+  padding: 24px;
+  margin-bottom: 30px;
+}
+
+.section-description {
+  color: var(--gray);
+  margin-bottom: 20px;
+}
+
+.content-form textarea {
+  width: 100%;
+  resize: vertical;
+  font-family: monospace;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+
+  /* mengatur kumpulan tombol dalam satu dif */
+}
+
+.btn-primary, .btn-secondary, .btn-clear {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-secondary {
+  background: var(--warning);
+  color: white;
+}
+
+.btn-clear {
+  background: var(--light);
+  color: var(--gray);
+  border: 1px solid var(--border);
+}
+
+.display-area {
+  margin-top: 24px;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.display-area.safe {
+  background: #f0fdf4;
+  border: 1px solid #dcfce7;
+}
+
+.display-area.unsafe {
+  background: #fee2e2;
+  border: 1px solid #fee2e2;
+}
+
+.raw-output, .rendered-output {
+  margin-bottom: 20px;
+}
+
+.raw-output pre {
+  background: var(--dark);
+  color: white;
+  padding: 16px;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: monospace;
+  font-size: 0.875rem;
+}
+
+.output-content {
+  padding: 16px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  min-height: 100px;
+}
+
+.security-analysis {
+  margin-top: 24px;
+  padding: 20px;
+  background: var(--light);
+  border-radius: 8px;
+}
+
+.analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.analysis-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.analysis-value.safe {
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+.analysis-value.danger {
+  color: var(--danger);
+  font-weight: 600;
 }
