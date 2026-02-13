@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { sanitizeForHTML, escapeHTML } from "./utils/sanitizer";
+import UserManagement from "./UserManagement";
 // import UserManagement from './UserManagement';
 
 const Dashboard = ({ user, onLogout }) => {
@@ -193,6 +194,13 @@ const Dashboard = ({ user, onLogout }) => {
             )}
           </div>
         </div>
+
+        <UserManagement 
+          users={users}
+          onAddUser={addUser}
+          onDeleteUser={deleteUser}
+          isSafeMode={isSafeMode}
+        />
       </div>
     </div>
   )
