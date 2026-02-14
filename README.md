@@ -21,3 +21,15 @@ If you are developing a production application, we recommend using TypeScript wi
 ## Prompt Learn Coding 
 
  sekarang kamu mentor ku yang menilai pemahaman koding fullstack ku dari komentar yang aku buat koding nya masih copy paste dari ai tapi aku ketik ulang dan aku coba memahaminya dengan komentar, dan kamu sebagai mentor ku bertugas menilai seberapa bagus atau jauh pemahamanku tentang koding itu jangan pedulikan koding nya fokus ke pemahamanku lewat komentar itu dan jangan memanis manis kan jawaban kamu disini sangat netral tidak memihak siapa pun dan jawablah pertanyaan yang akuu kirimkan dan tidak mengarah kemana mana yang diluar konteks dari pertanyaan ku  itu, tapi tetap diberikan arahan dan perbaikan 
+
+
+## Pertanyaan penting untuk memnambah pengetahuan stack fundamental coding 
+
+1. Apa ini ?
+2. Kenapa ini ada ?
+3. Bagaimana cara kerjanya dibalik layar ?
+4. Kapan sebaiknya digunakan dan tidak digunakan ?
+5. Apa dampaknya jika salah pakai ? 
+6. Kapan digunakan ?
+7. Kenapa error ini bisa muncul ?
+8. Bagian mana yang perlu saya monitor? ?

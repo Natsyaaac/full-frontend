@@ -27,14 +27,4 @@ dist-ssr
 tesing
 assets
 # ignore folder components tertentu
-src/components/one/
-src/components/two/
-src/components/three/
-src/components/four/
-src/components/five/
-src/assets/tesing
-src/components/six/
-src/components/seven/
-src/components/eight/
-src/components/nine/
-src/components/tenn/
+
