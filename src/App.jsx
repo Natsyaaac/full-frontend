@@ -1,5 +1,5 @@
 
-import GridTwoo from './components/TwoEl/App'
+import GridTwoo from './component/OneLay/App'
 
 function App() {
 
