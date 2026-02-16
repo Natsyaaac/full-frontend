@@ -12,11 +12,11 @@ function App() {
     <div className="app">
       <h1>Demo: Scope & Closure + Responsive</h1>
 
-      <button onClick={() => setShowScope(!showScope)}>
+      <button onClick={() => setShowScope(!showScope)}>  {/*jika di klik dia akan membalik nilai boolean true menjadi false dan sebaliknya*/}
         Toggle Demo 
       </button>
 
-      {showScope ? <ScopeClosure /> : <ResponsiveBox />}
+      {showScope ? <ScopeClosure /> : <ResponsiveBox />} {/*jika true keluar ScopeClosure dan jika False ResponsiveBox*/}
     </div>
   )
 }

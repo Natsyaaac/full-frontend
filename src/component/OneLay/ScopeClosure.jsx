@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useActionData } from 'react-router-dom'
 
 function createMultiplier(factor) {  // ini adalah function yang mengembalikan function lain  parameter (number) masih bisa mengakses didalam , berguna untuk perkalian didalam berdasarkan parameter awal 
   return function (number) {
@@ -14,9 +15,10 @@ function ScopeClosure() {
   const [count, setCount] = useState(0)
   const [message, setMessage] = useState('')
 
+
   const createLogger = (prefix) => {  // function : membuat dan mengembalikan funsi baru
     // prefix disimpan dalam closure 
-    return () => { 
+    return () => {
 
       // function ini maasih bisa mengakses prefix karena closure 
       // new Date dibuat saat fungsi ini dipanggil 
@@ -28,6 +30,27 @@ function ScopeClosure() {
       setMessage(`Logger ${prefix} dipanggil`)
     }
   }
+
+  const createCounter = () => {  // function : memmbuat counter dengan statet privat setiap fungsi dipanggil dia akan membuat privateCount baru 
+    let privateCount = 0 
+
+    // variable lokal private state dimulai dari 0
+
+    return {
+      increment: () => {
+        privateCount++
+        return privateCount // menambah nilai sebesar 1 dan mengembalikan nilai terbaru setelah ditambah 
+      },
+      decrement: () => {
+        privateCount--
+        return privateCount // mengurangi nilai dan mengembalikan nilai terbaru setelah dikurang 
+      },
+
+      getCount: () => privateCount  // mengambil nilai saat ini 
+    }
+  }
+
+  const [counter] = useState(createCounter)
 
   const logInfo = createLogger('INFO')
   const logError = createLogger('ERROR')
@@ -58,6 +81,45 @@ function ScopeClosure() {
         </div>
 
         {message && <p className='message'>{message}</p>}
+      </div>
+
+      <div className="demo-section">
+        <h3>3. Private Counter (Closure)</h3>
+        <div className="counter">
+          <span>Count: {counter.getCount()}</span>
+          <div className="button-group">
+            <button
+              onClick={() => {
+                counter.increment()
+                setCount(prev => prev + 1)
+
+                // saat tombol diklik, memanggil counter.increment() lalu menambah state count sebesar 1 berdasarkan nilai seblumnya 
+              }}>
+              +
+            </button>
+
+            <button
+              onClick={() => {
+                counter.decrement()
+                setCount(prev => prev - 1)
+
+                // saat tombol diklik memanggil countet.decrement() lalu mengurang state count sebesar 1 berdasarkan nilai sebelumnya 
+              }}>
+              -
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="demo-section">
+        <h3>4. Scope dnegan useState</h3>
+        <input
+          type="text"
+          value={count}
+          onChange={(e) => setCount(e.target.value)}
+          placeholder='Test Scope Variavle'
+        />
+        <p>Value: {count}</p>
       </div>
     </div>
   )
