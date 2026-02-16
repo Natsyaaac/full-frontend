@@ -17,10 +17,9 @@ function useMediaQuery(query) { // costume hook untuk mengecek apakah media quer
 
     return () => media.removeEventListener('change', listener)  // menghapus event listeber saat component unmount atau dependency berubah 
   }, [matches, query])
+
+  return matches
 }
-
-
-
 
 function ResponsiveBox() {
   const isMobile = useMediaQuery('(max-width: 600px)')
@@ -66,6 +65,29 @@ function ResponsiveBox() {
             🔄 Orientasi: {orientation === 'portrait' ? 'Potrait' : 'Landscape'}
           </li>
         </ul>
+      </div>
+
+      <div className={`demo-box ${orientation}`}>
+        <p>Resize untuk melihat perubahan</p>
+        <div className="size-indicator">
+          {isMobile && '📱 Mode Mobile'}
+          {isTablet && '📟 Mode Tablet'}
+          {isDesktop && '💻 Mode Desktop'}
+        </div>
+      </div>
+
+      <div className="media-query-demo">
+        <h3>Media Query Examples:</h3>
+
+        <div className="box box1">Background berubah di mobile</div>
+        <div className="box box2">Text size berubah di tablet</div>
+        <div className="box box3">Border berubah di desktop</div>
+
+        <div className="flex-container">
+          <div className="flex-item">Item 1</div>
+          <div className="flex-item">Item 2</div>
+          <div className="flex-item">Item 3</div>
+        </div>
       </div>
     </div>
   )
