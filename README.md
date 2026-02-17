@@ -32,13 +32,10 @@ If you are developing a production application, we recommend using TypeScript wi
 5. Apa dampaknya jika salah pakai ? 
 6. Kapan digunakan ?
 7. Kenapa error ini bisa muncul ?
-<<<<<<< HEAD
 8. Bagian mana yang perlu saya monitor? ?
 
 
 ## Promot membuat website 
 
 Buatkan aku sebuah website sederhana (React + vite + express + css) dengan implementasi code () dan css terpisah untuk setiap file jsx, Flex-box & grid ,diddalam website itu sudah mengandung implentasi code itu jangan diluar konteks dari ini, bedakaan dengan website website yang sbeleumnya pernah dibuat, dan responsive disegala ukuran deevice 
-=======
-8. Bagian mana yang perlu saya monitor? ?
->>>>>>> 2a73112224d2e2834fa0a77ef45eae1cc312342d
+
