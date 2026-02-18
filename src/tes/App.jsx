@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import MovieList from './components/MovieList';
-import SearchBar from './components/SearchBar';
-import MovieDetail from './components/MovieDetail';
+import MovieList from './MovieList';
+import SearchBar from './SearchBar';
+import MovieDetail from './MovieDetail';
 import './App.css';
 
 function App() {
