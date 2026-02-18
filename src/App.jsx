@@ -1,15 +1,10 @@
-
-<<<<<<< HEAD
-import GridTwoo from './tesing/App'
-=======
-import GridTwoo from './component/OneLay/App'
->>>>>>> 2a73112224d2e2834fa0a77ef45eae1cc312342d
+import SSHH from './component/ThreeLay/App'
 
 function App() {
 
   return (
     <>
-      <GridTwoo />
+      <SSHH />
     </>
   )
 }
