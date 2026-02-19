@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from './components/SearchBar';
+import MovieList  from './components/MovieList';
 import './App.css';
 
 function App() {
@@ -142,7 +143,7 @@ function App() {
 
       <div className="main-content">
         <aside className="sidebar">
-         <SearchBar 
+         <SearchBar   
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
           genreFilter={genreFilter}
@@ -151,12 +152,16 @@ function App() {
          />
 
           {selectedMovie && (
-            <div className="">Moviedetail</div>
+            <div className="">MovieDetail</div>
           )}
         </aside>
 
         <main className="movie-grid-container">
-          <div className="">MovieList</div>
+          <MovieList 
+            movies={filteredMovies}
+            onMovieSelect={handleMovieSelect}
+            selectedMovieId={selectedMovie?.id}
+          />
 
           {filteredMovies.length === 0 && (
             <div className="no-results">

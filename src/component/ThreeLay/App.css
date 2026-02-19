@@ -201,3 +201,104 @@
 .remove-filter:hover {
   opacity: 0.8;
 }
+
+/* ================
+     MovieList
+   ================  */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.movie-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.movie-card.selected {
+  border-color: #667eea;
+  background: #f0f3ff;
+}
+
+.movie-card.watched {
+  background: linear-gradient(135deg, #f6f9fc 0%, #e6f0fa 100%);
+}
+
+.movie-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.movie-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  flex: 1;
+  margin-right: 10px;
+}
+
+.movie-badge {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.watched-badge {
+  background: #4caf50;
+  color: white;
+}
+
+.unwatched-badge {
+  background: #ff9800;
+  color: white;
+}
+
+.movie-details {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.movie-genre {
+  background: #e0e0e0;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: #333;
+}
+
+.movie-year {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.movie-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rating-star {
+  color: #ffc107;
+  font-size: 1.2rem;
+}
+
+.rating-value {
+  font-weight: 600;
+  color: #333;
+}
