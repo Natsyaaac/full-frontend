@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SearchBar from './components/SearchBar';
 import MovieList  from './components/MovieList';
 import './App.css';
+import MovieDetail from './components/MovieDetail';
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -152,7 +153,10 @@ function App() {
          />
 
           {selectedMovie && (
-            <div className="">MovieDetail</div>
+            <MovieDetail 
+              movie={selectedMovie}
+              onToggleWatched={toggleWatched}
+            /> 
           )}
         </aside>
 
