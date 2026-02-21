@@ -1,4 +1,4 @@
-import SSHH from './tes/App'
+import SSHH from './component/TwoLay/App'
 
 function App() {
 

@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css'
-import LoadingSpinner from '../../tes/LoadingSpinner';
+import LoadingSpinner from './components/LoadingSpinner';
+import Header from './components/Header'
+import TaskForm from './components/TaskForm'
+
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -124,11 +127,11 @@ const App = () => {
         // jika id cocol, buat object baru dengan shallow copy lalu override statu.
         // jika tidak, kembalikan task lama 
       } else {
-        throw new Error(result.error); 
+        throw new Error(result.error);
         // jika succes false, lempar error agar ditangani oleh catch 
       }
     } catch (err) {
-      alert('Gagal update status: ' + err.message) 
+      alert('Gagal update status: ' + err.message)
       // Menangkap Promise rejection atau error runtime lalu menampilkan pesan 
     }
   };
@@ -169,12 +172,36 @@ const App = () => {
   const groupedTasks = groupTasksByStatus(); // Memanggil function grouping dan menyimpan hasilnya ke groupedTasks
 
   if (loading) return <LoadingSpinner />
-  
+
   return (
     <div className="app">
-      Header
+      <Header 
+        onAddTask={() => setShowForm(true)}
+        taskCount={tasks.length}
+      />
+
+
+      {error && (
+        <div className="error-banner">
+          <p>Error: {error}</p>
+          <button onClick={fetchTasks}>Coba Lagi</button>
+        </div>
+      )}
+
+      {showForm && (
+        <TaskForm 
+          onSubmit={handleCreateTask}
+          onClose={() => setShowForm(false)}
+        />
+      )}
+
+      <main className="main-content">
+        <div className="KanbanBoard">
+          K
+        </div>
+      </main>
     </div>
-  )
-}
+  );
+};
 
 export default App
