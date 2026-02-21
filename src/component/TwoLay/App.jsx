@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css'
+import LoadingSpinner from '../../tes/LoadingSpinner';
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -67,7 +68,7 @@ const App = () => {
   // dependency tasks, fungcition dibuat ulang saat takks brubah 
 
   const handleCreateTask = async (taskData) => {
-    // function async untuk membuat tasks baru (mengembalikan PRomise)
+    // function async untuk membuat tasks baru (mengembalikan Promise)
     try {
       const response = await fetch('http://localhost:5000/api/tasks', {
         method: 'POST',
@@ -97,6 +98,7 @@ const App = () => {
 
 
   const handleUpdateTaskStatus = async (taskId, newStatus) => {
+    // fungsi async untuk mengupdate status task (mengembalikan promise)
     try {
       const response = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
         method: 'PUT',
@@ -104,9 +106,11 @@ const App = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ status: newStatus })
+        // mengiriim request PUT dan menunggu Promise resolve, body dikirim sebagai JSON string
       });
 
       const result = await response.json();
+      // menunggu Promise Parsing JSON lalu menyimpan hasil object ke result 
 
       if (result.success) {
         setTasks(prevTasks =>
@@ -116,20 +120,56 @@ const App = () => {
               : task
           )
         );
+        // Menggunakan functional update, map membuat array baru.
+        // jika id cocol, buat object baru dengan shallow copy lalu override statu.
+        // jika tidak, kembalikan task lama 
       } else {
-        throw new Error(result.error);
+        throw new Error(result.error); 
+        // jika succes false, lempar error agar ditangani oleh catch 
       }
     } catch (err) {
-      alert('Gagal update status: ' + err.message)
+      alert('Gagal update status: ' + err.message) 
+      // Menangkap Promise rejection atau error runtime lalu menampilkan pesan 
     }
   };
 
   const handleDeleteTask = async (taskId) => {
+    // fungsi async untuk menghapus task dengan promise 
     const confirmDelete = await new Promise((resolve) => {
       const result = window.confirm('Yakin ingin mengapus task ini');
       resolve(result)
+      // Membuat Promise manual untuk membunngkus hasil window.confirm lalu menunggu resolve
     });
-  }
+
+    if (!confirmDelete) return;
+    // jika user tidak ada konfirmasi, hentikan eksekusi function 
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+        method: 'DELETE',
+        // mengirim request DELETE dan menunggu Promise resolve
+      });
+
+      const result = await response.json()
+      // menunggu Promise pasring json lalu menghapus hasil object nya 
+
+      if (result.success) {
+        setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+        // Fucntional update menggunakan filter untuk membuat array baru tanpa task dengan id yang dihapus
+      } else {
+        throw new Error(result.error)
+        // menangkap Promise rejection atau error runtime lalu menampilkan pesan   
+      }
+    } catch (err) {
+      alert('Gagal menghapus task: ' + err.message)
+      // Menangkap Promise rejection atau notwork problem, ditambah menampilkan pesan error 
+    }
+  };
+
+  const groupedTasks = groupTasksByStatus(); // Memanggil function grouping dan menyimpan hasilnya ke groupedTasks
+
+  if (loading) return <LoadingSpinner />
+  
   return (
     <div className="app">
       Header
