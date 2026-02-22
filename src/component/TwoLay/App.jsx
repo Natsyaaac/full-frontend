@@ -3,6 +3,7 @@ import './App.css'
 import LoadingSpinner from './components/LoadingSpinner';
 import Header from './components/Header'
 import TaskForm from './components/TaskForm'
+import KanbanBoard from './components/KanbanBoard';
 
 
 const App = () => {
@@ -196,9 +197,11 @@ const App = () => {
       )}
 
       <main className="main-content">
-        <div className="KanbanBoard">
-          K
-        </div>
+        <KanbanBoard 
+          columns={groupedTasks}
+          onUpdateStatus={handleUpdateTaskStatus}
+          onDeleteTask={handleDeleteTask}
+        />
       </main>
     </div>
   );
