@@ -145,5 +145,4 @@ Sekarang kamu mentor ku, aku adalah pemula untuk menjadi fullstack developer. Tu
 
 ## Prompt Membuat Website
 
-Buatkan aku sebuah website sederhana (`React + vite + express + css`) dengan implementasi code dan css terpisah untuk setiap file jsx, `Flex-box` & `grid`, didalam website itu sudah mengandung implementasi code itu jangan diluar konteks dari ini, bedakan dengan website website yang sebelumnya pernah dibuat, dan responsive disegala ukuran device.
-
+Buatkan aku sebuah website modern sederhana (`React + vite + express + css`) dengan implementasi code () dan css terpisah untuk setiap file jsx, `Flex-box` & `grid`, didalam website itu sudah mengandung implementasi code itu jangan diluar konteks dari ini, bedakan dengan website-website yang sebelumnya pernah dibuat, dan responsive disegala ukuran device. langsung file component yang membentuknya jangan root ditambahkan 
