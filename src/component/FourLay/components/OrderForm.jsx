@@ -49,8 +49,8 @@ const OrderForm = ({ onSubmit, onClose }) => {
       newErrors.title = 'Nama makanan minimal 3 karakter'
     }
 
-    const validPriorities = ['pending', 'diproses', 'selesai']
-    if (!validPriorities.includes(Orderdata, priority)) {
+    const validPriorities = ['low', 'medium', 'high']
+    if (!validPriorities.includes(Orderdata.priority)) {
       newErrors.priority = 'Priority tidak valid'
     }
     return newErrors
@@ -100,11 +100,11 @@ const OrderForm = ({ onSubmit, onClose }) => {
               value={Orderdata.priority}
               onChange={handleChange}
             >
-              <option value="pending">Pending</option>
-              <option value="Progres">Diproses</option>
-              <option value="Done">Selesai</option>
+              <option value="low">low</option>
+              <option value="medium">medium</option>
+              <option value="high">high</option>
             </select>
-            {errors.description &&
+            {errors.priority &&
               <span className='error-message'>{errors.priority}</span>
             }
           </div>

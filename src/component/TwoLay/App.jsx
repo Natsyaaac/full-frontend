@@ -176,7 +176,7 @@ const App = () => {
 
   return (
     <div className="app">
-      <Header 
+      <Header
         onAddTask={() => setShowForm(true)}
         taskCount={tasks.length}
       />
@@ -190,14 +190,14 @@ const App = () => {
       )}
 
       {showForm && (
-        <TaskForm 
+        <TaskForm
           onSubmit={handleCreateTask}
           onClose={() => setShowForm(false)}
         />
       )}
 
       <main className="main-content">
-        <KanbanBoard 
+        <KanbanBoard
           columns={groupedTasks}
           onUpdateStatus={handleUpdateTaskStatus}
           onDeleteTask={handleDeleteTask}

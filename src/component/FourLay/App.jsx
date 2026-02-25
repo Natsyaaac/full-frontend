@@ -3,6 +3,7 @@ import './App.css'
 import Loading from './components/Loading';
 import Header from './components/Header';
 import OrderForm from './components/OrderForm'
+import KanbanBoard from './components/KanbanBoard';
 
 const AppFoodOrders = () => {
   const [foods, setFoods] = useState([]);
@@ -49,39 +50,116 @@ const AppFoodOrders = () => {
       });
 
       const result = await response.json()
-      if(result.success) {
+      if (result.success) {
         setFoods(prevOrders => [...prevOrders, result.data]);
         setShowOrder(false);
       } else {
         throw new Error(result.error)
       }
-    } catch(err) {
+    } catch (err) {
       alert('Gagal membuat order: ' + err.message)
     }
   };
+
+  const groupOrderByStatus = useCallback(() => {
+    return foods.reduce((acc, food) => {
+      const { status, ...orderWithoutStatus } = food;
+
+      if (!acc[status]) {
+        acc[status] = []
+      }
+
+      acc[status] = [...acc[status], orderWithoutStatus];
+      return acc
+
+    }, { pending: [], diproses: [], selesai: [] })
+  }, [foods])
+
+  const handleUpdateOrderStatus = async (foodId, newStatus) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/foods/${foodId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: newStatus })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setFoods(prevOrders =>
+          prevOrders.map(food =>
+            food.id === foodId
+              ? { ...food, status: newStatus }
+              : food
+          )
+        );
+      } else {
+        throw new Error(result.error)
+      }
+    } catch (err) {
+      alert(`Gagal Update status: ` + err.message)
+    }
+  };
+
+  const handleDeleteOrder = async (foodId) => {
+    const confirmDelete = await new Promise((resolve) => {
+      const result = window.confirm('Yakin ingin menghapus order ini');
+      resolve(result)
+    });
+
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/foods/${foodId}`, {
+        method: 'DELETE',
+      });
+
+      const result = await response.json()
+
+      if (result.success) {
+        setFoods(prevOrders => prevOrders.filter(food => food.id !== foodId));
+      } else {
+        throw new Error(result.error)
+      }
+    } catch (err) {
+      alert('Gagal menghapus task: ' + err.message)
+    }
+  };
+
+  const groupedOrder = groupOrderByStatus();
+
 
   if (loading) return <Loading />
 
   return (
     <div className="app-order">
-      <Header 
+      <Header
         orderCount={foods.length}
         onAddOrder={() => setShowOrder(true)}
       />
 
-    {error && (
-      <div className="error-banner">
-        <p>Error: {error}</p>
-        <button onClick={fetchFood}>Coba Lagi</button>
-      </div>
-    )}
+      {error && (
+        <div className="error-banner">
+          <p>Error: {error}</p>
+          <button onClick={fetchFood}>Coba Lagi</button>
+        </div>
+      )}
 
-    {showOrder && (
-      <OrderForm 
-        onSubmit={handleCreateOrder}
-        onClose={() => setShowOrder(false)}
-      />
-    )}
+      {showOrder && (
+        <OrderForm
+          onSubmit={handleCreateOrder}
+          onClose={() => setShowOrder(false)}
+        />
+      )}
+
+      <main className="main-content">
+        <KanbanBoard
+          columns={groupedOrder}
+          onUpdateStatus={handleUpdateOrderStatus}
+          onDeleteOrder={handleDeleteOrder}
+        />
+      </main>
     </div>
   )
 }
