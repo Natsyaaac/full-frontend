@@ -73,4 +73,5 @@ body {
   line-height: 1.6;
   background: #f4f6fa;
   color: #2d3748;
+  max-height: 100vh;
 }
