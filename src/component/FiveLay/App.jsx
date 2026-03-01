@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { fetchPosts, fetchUsers } from './util/api';
 import Header from './components/Header';
+import Dashboard from './components/Dashboard';
 
 
 const App = () => {
@@ -87,7 +88,10 @@ const App = () => {
         onFilterChange={setActiveFilter}
         currentFilter={activeFilter}
       />
-      <div className="dashboard">Dash</div>
+      <Dashboard
+        users={getFilteredUsers()}
+        posts={posts}
+      />
     </div>
   );
 }
