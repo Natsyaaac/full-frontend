@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { fetchPosts, fetchUsers } from '../../tes/api';
+import { fetchPosts, fetchUsers } from './util/api';
+import Header from './components/Header';
 
 
 const App = () => {
@@ -81,7 +82,11 @@ const App = () => {
 
   return (
     <div className="app">
-      <div className="Header">head</div>
+      <Header
+        stats={stats}
+        onFilterChange={setActiveFilter}
+        currentFilter={activeFilter}
+      />
       <div className="dashboard">Dash</div>
     </div>
   );
