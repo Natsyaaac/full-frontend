@@ -148,3 +148,6 @@ misal kalo aku mau buat cloning dari folder Five layout dengan struture sama nah
 ## Prompt Membuat Website
 
 Buatkan aku sebuah website modern sederhana (`React + vite + express + css`) dengan implementasi code () dan css terpisah untuk setiap file jsx, `Flex-box` & `grid`, didalam website itu sudah mengandung implementasi code itu jangan diluar konteks dari ini, bedakan dengan website-website yang sebelumnya pernah dibuat, dan responsive disegala ukuran device. langsung file component yang membentuknya jangan root ditambahkan 
+
+
+Scope & closure,Async / await,Promise,Array method (map, filter, includes, dll),Error handling (try/catch),Destructuring,Spread operator,Event loop (tambahan penting),Perbedaan var, let, const,Perbedaan == dan ===,Request & Response,HTTP method (GET, POST, PUT, DELETE),Status code (200, 400, 401, 403, 500),Header (Authorization, Content-Type),CORS,JSON format,Stateless concept,useState,useEffect,Form handling,Conditional rendering,Basic routing,Protected route,Fetch API / axios,Layout dashboard (Flexbox, Grid)

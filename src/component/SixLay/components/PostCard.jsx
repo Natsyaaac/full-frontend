@@ -14,6 +14,7 @@ const PostBugs = ({ bugs }) => {
           {categoryIcons[category] || '📌'}
         </span>
         <span className="category-name">{category}</span>
+
       </div>
 
       <h3 className="post-title">{title}</h3>
