@@ -1,173 +1,333 @@
 ﻿# Penjelasan Alur Kode FiveLay (Fetch API -> Tampilan)
 
-Dokumen ini menjelaskan alur data di project FiveLay, dari backend API sampai tampil di UI React.
+Dokumen ini versi update: ada penjelasan + potongan kode inti per blok supaya lebih jelas.
 
 ## 1. Gambaran Alur Besar
 
-Alur utamanya seperti ini:
+Urutan data:
 
-1. `App.jsx` dijalankan saat halaman dibuka.
-2. `useEffect` memanggil `fetchUsers()` dan `fetchPosts()` dari `util/api.js`.
-3. `util/api.js` mengirim request ke endpoint backend (`/api/users` dan `/api/posts`).
-4. `server.js` mengambil data, memfilter/menambah field, lalu kirim JSON response.
-5. Hasil response masuk ke state React (`users`, `posts`) di `App.jsx`.
-6. State dikirim ke `Header` dan `Dashboard` lewat props.
-7. `Dashboard` memetakan data menjadi `UserCard` dan `PostCard` lalu tampil ke layar.
+1. `App.jsx` mount.
+2. `App.jsx` panggil `fetchUsers()` dan `fetchPosts()`.
+3. `util/api.js` request ke backend (`/api/users`, `/api/posts`).
+4. `server.js` proses data lalu kirim JSON.
+5. Hasil masuk ke state React (`users`, `posts`).
+6. State dikirim ke `Header` dan `Dashboard` via props.
+7. `Dashboard` render `UserCard` dan `PostCard`.
 
-Ringkas arah data:
+Arah data singkat:
 
-`Backend (server.js) -> util/api.js -> App.jsx (state) -> Header/Dashboard (props) -> UserCard/PostCard (UI)`
+`server.js -> api.js -> App.jsx (state) -> Header/Dashboard (props) -> UserCard/PostCard`
 
-## 2. Blok Backend: `full-backend/server.js`
+## 2. Blok Backend (`full-backend/server.js`)
 
-### a) Sumber data
-- Data user dan post disimpan di `globalData` (sementara di memory).
+### 2.1 Struktur response API
+```js
+const createApiResponse = (statusCode) => {
+  return (data, message = 'Success') => ({
+    status: statusCode,
+    data,
+    message,
+    timestamp: new Date().toISOString()
+  });
+};
 
-### b) Bentuk response
-- Semua endpoint memakai format:
-  - `status`
-  - `data`
-  - `message`
-  - `timestamp`
+const successResponse = createApiResponse(200);
+const errorResponse = createApiResponse(500);
+```
 
-### c) Endpoint `/api/users`
-- Bisa terima query `filter=active` dan `role=...`.
-- Server memfilter array users sesuai query.
-- Hasil dikirim ke frontend lewat `res.json(...)`.
+Artinya: backend selalu kirim format yang konsisten. Frontend nanti ambil data utama dari `response.data.data`.
 
-### d) Endpoint `/api/posts`
-- Bisa terima query `category` dan `minLikes`.
-- Server memfilter posts sesuai query.
-- Lalu server menambah field:
-  - `author` (nama user dari `userId`)
-  - `isPopular` (penanda populer berdasarkan likes tertentu)
-- Hasil akhir dikirim ke frontend.
+### 2.2 Endpoint users
+```js
+app.get('/api/users', async (req, res) => {
+  try {
+    const { filter, role } = req.query;
+    let filteredUsers = [...globalData.users];
 
-Intinya: backend menyiapkan data mentah + data turunan supaya frontend tinggal render.
+    if (filter === 'active') {
+      filteredUsers = filteredUsers.filter(user => user.active);
+    }
 
-## 3. Blok API Client: `full-frontend/src/component/FiveLay/util/api.js`
+    if (role) {
+      filteredUsers = filteredUsers.filter(user => user.role === role);
+    }
 
-### a) `API_BASE = '/api'`
-- Semua request axios memakai prefix ini.
+    res.json(successResponse(filteredUsers));
+  } catch (error) {
+    res.status(500).json(errorResponse(null, error.message));
+  }
+});
+```
 
-### b) `fetchUsers(filter, role)`
-- Susun query dengan `URLSearchParams`.
-- `axios.get('/api/users?...')`.
-- Return `response.data.data` (yang dipakai React).
+Artinya: backend bisa filter user sesuai query dari frontend.
 
-### c) `fetchPosts(category, minLikes)`
-- Polanya sama, request ke `/api/posts`.
-- Return `response.data.data`.
+### 2.3 Endpoint posts
+```js
+app.get('/api/posts', async (req, res) => {
+  try {
+    const { category, minLikes } = req.query;
+    let filteredPosts = [...globalData.posts];
 
-### d) `handleApiError(error)`
-- Ubah error axios jadi pesan yang lebih mudah dibaca.
-- Error ini dilempar ke pemanggil (`App.jsx`).
+    if (category) {
+      filteredPosts = filteredPosts.filter(post => post.category === category);
+    }
 
-Intinya: file ini jadi jembatan antara React dan backend.
+    if (minLikes) {
+      filteredPosts = filteredPosts.filter(post => post.likes >= parseInt(minLikes));
+    }
 
-## 4. Blok Utama React: `full-frontend/src/component/FiveLay/App.jsx`
+    const postsWithUser = filteredPosts.map(post => {
+      const user = globalData.users.find(u => u.id === post.userId);
+      return {
+        ...post,
+        author: user ? user.name : 'Unknown',
+        isPopular: [45, 56, 78].includes(post.likes)
+      };
+    });
 
-### a) State utama
-- `users`: simpan data user dari API.
-- `posts`: simpan data post dari API.
-- `loading`: status proses ambil data.
-- `error`: simpan pesan error jika gagal.
-- `activeFilter`: filter user (`all/active/inactive`).
+    res.json(successResponse(postsWithUser));
+  } catch (error) {
+    res.status(500).json(errorResponse(null, error.message));
+  }
+});
+```
 
-### b) `useEffect` (jalan sekali saat mount)
-- Fungsi `loadData()` dipanggil.
-- `Promise.all([fetchUsers(), fetchPosts()])` jalan paralel.
-- Jika sukses:
-  - `setUsers(usersData)`
-  - `setPosts(postsData)`
-  - `setError(null)`
-- Jika gagal:
-  - `setError(err.message)`
-- Terakhir selalu:
-  - `setLoading(false)`
+Artinya: backend menambah field `author` dan `isPopular`, jadi frontend tidak perlu hitung ulang bagian ini.
 
-### c) Filter user di `getFilteredUsers()`
-- Jika `activeFilter = active`, ambil user aktif.
-- Jika `inactive`, ambil user nonaktif.
-- Jika `all`, kembalikan semua users.
+## 3. Blok API Client (`full-frontend/src/component/FiveLay/util/api.js`)
 
-### d) Statistik `stats`
-- Hitung total user, user aktif, total post, total likes, dan kategori unik.
-- `stats` ini dikirim ke `Header`.
+### 3.1 Konfigurasi dasar + error handler
+```js
+import axios from 'axios';
+const API_BASE = '/api';
 
-### e) Render
-- Saat `loading`: tampil `Loading...`.
-- Saat `error`: tampil pesan error.
-- Saat data siap:
-  - `Header` menerima `stats`, `onFilterChange`, `currentFilter`.
-  - `Dashboard` menerima `users` hasil filter dan `posts`.
+const handleApiError = (error) => {
+  if (error.response) {
+    throw new Error('Terjadi kesalahan dari server');
+  } else if (error.request) {
+    throw new Error('Tidak dapat terhubung ke server');
+  } else {
+    throw new Error('Gagal memuat data');
+  }
+};
+```
 
-Intinya: `App.jsx` adalah pusat state dan pusat alur data.
+Artinya: kalau request gagal, pesan error dibuat lebih manusiawi.
 
-## 5. Blok Header: `full-frontend/src/component/FiveLay/components/Header.jsx`
+### 3.2 Function fetch
+```js
+export const fetchUsers = async (filter = '', role = '') => {
+  try {
+    const params = new URLSearchParams();
+    if (filter) params.append('filter', filter);
+    if (role) params.append('role', role);
 
-### a) Terima props dari App
-- `stats`
-- `onFilterChange`
-- `currentFilter`
+    const response = await axios.get(`${API_BASE}/users?${params}`);
+    return response.data.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
 
-### b) Tampilkan statistik
-- `Object.entries(stats)` diubah jadi list kartu statistik.
+export const fetchPosts = async (category = '', minLikes = 0) => {
+  try {
+    const params = new URLSearchParams();
+    if (category) params.append('category', category);
+    if (minLikes) params.append('minLikes', minLikes);
 
-### c) Tombol filter user
-- Tombol `all/active/inactive` memanggil `onFilterChange(filter)`.
-- Ini mengubah state `activeFilter` di `App.jsx`.
-- Setelah state berubah, `App.jsx` render ulang dan kirim user yang sudah difilter ke `Dashboard`.
+    const response = await axios.get(`${API_BASE}/posts?${params}`);
+    return response.data.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+```
 
-Intinya: Header tidak ambil data sendiri, hanya tampilkan dan kirim aksi ke App.
+Artinya: file ini jadi jembatan antara komponen React dan backend API.
 
-## 6. Blok Dashboard: `full-frontend/src/component/FiveLay/components/Dashboard.jsx`
+## 4. Blok Utama React (`full-frontend/src/component/FiveLay/App.jsx`)
 
-### a) Terima props
-- `users` (sudah difilter dari App)
-- `posts` (semua post dari App)
+### 4.1 State utama
+```js
+const [users, setUsers] = useState([]);
+const [posts, setPosts] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
+const [activeFilter, setActiveFilter] = useState('all');
+```
 
-### b) State lokal Dashboard
-- `selectedCategory` untuk filter kategori post.
-- `searchTerm` untuk cari post berdasar judul/author.
+Artinya: semua data inti aplikasi disimpan di `App`.
 
-### c) `getFilteredPosts()`
-- Mulai dari copy `posts`.
-- Jika kategori bukan `all`, filter by `post.category`.
-- Jika `searchTerm` ada, filter by `title` atau `author` (case-insensitive).
-- Return hasil akhir `filteredPosts`.
+### 4.2 Ambil data saat komponen pertama kali tampil
+```js
+useEffect(() => {
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      const [usersData, postsData] = await Promise.all([
+        fetchUsers(),
+        fetchPosts()
+      ]);
 
-### d) Render komponen kecil
-- `users.map(...)` -> `UserCard`.
-- `filteredPosts.map(...)` -> `PostCard`.
-- Jika `filteredPosts` kosong, tampil pesan no result.
+      setUsers(usersData);
+      setPosts(postsData);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-Intinya: Dashboard mengatur logika tampilan daftar dan pencarian post.
+  loadData();
+}, []);
+```
+
+Artinya:
+- request users + posts jalan bareng (lebih cepat),
+- hasil disimpan ke state,
+- lalu UI otomatis re-render.
+
+### 4.3 Filter user + kirim data ke child
+```js
+const getFilteredUsers = () => {
+  switch (activeFilter) {
+    case 'active':
+      return users.filter(user => user.active);
+    case 'inactive':
+      return users.filter(user => !user.active);
+    default:
+      return users;
+  }
+};
+
+return (
+  <div className="app">
+    <Header
+      stats={stats}
+      onFilterChange={setActiveFilter}
+      currentFilter={activeFilter}
+    />
+    <Dashboard users={getFilteredUsers()} posts={posts} />
+  </div>
+);
+```
+
+Artinya: `App` adalah pusat data, child hanya menerima data lewat props.
+
+## 5. Blok Header (`components/Header.jsx`)
+
+```js
+const Header = ({ stats, onFilterChange, currentFilter }) => {
+  return (
+    <div className="filter-buttons">
+      {['all', 'active', 'inactive'].map((filter) => (
+        <button
+          key={filter}
+          className={`filter-btn ${currentFilter === filter ? 'active' : ''}`}
+          onClick={() => onFilterChange(filter)}
+        >
+          {filter}
+        </button>
+      ))}
+    </div>
+  );
+};
+```
+
+Artinya: saat tombol diklik, Header mengirim aksi ke `App` (`setActiveFilter`).
+
+## 6. Blok Dashboard (`components/Dashboard.jsx`)
+
+### 6.1 State lokal filter post
+```js
+const [selectedCategory, setSelectedCategory] = useState('all');
+const [searchTerm, setSearchTerm] = useState('');
+```
+
+### 6.2 Filter post berdasarkan kategori + search
+```js
+const getFilteredPosts = () => {
+  let filtered = [...posts];
+
+  if (selectedCategory !== 'all') {
+    filtered = filtered.filter(post => post.category === selectedCategory);
+  }
+
+  if (searchTerm) {
+    filtered = filtered.filter(post =>
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.author.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+
+  return filtered;
+};
+
+const filteredPosts = getFilteredPosts();
+```
+
+### 6.3 Render list card
+```js
+<div className="users-grid">
+  {users.map(user => (
+    <UserCard key={user.id} user={user} />
+  ))}
+</div>
+
+<div className="posts-grid">
+  {filteredPosts.map(post => (
+    <PostCard key={post.id} post={post} />
+  ))}
+</div>
+```
+
+Artinya: data array diubah jadi komponen UI lewat `.map()`.
 
 ## 7. Blok Kartu UI
 
-### a) `UserCard.jsx`
-- Menerima 1 object `user`.
-- Menampilkan nama, email, role, status active/offline.
-- Class CSS berubah sesuai status user.
+### 7.1 `UserCard.jsx`
+```js
+const UserCard = ({ user }) => {
+  const { name, email, role, active } = user;
 
-### b) `PostCard.jsx`
-- Menerima 1 object `post`.
-- Menampilkan kategori, judul, author, likes.
-- Jika `isPopular = true`, tampil badge popular.
+  return (
+    <div className={`user-card ${active ? 'active' : 'inactive'}`}>
+      <h3>{name}</h3>
+      <p>{email}</p>
+      <span>{role}</span>
+    </div>
+  );
+};
+```
 
-Intinya: kedua komponen ini fokus presentasi (display), bukan ambil data.
+### 7.2 `PostCard.jsx`
+```js
+const PostCard = ({ post }) => {
+  const { title, author, likes, isPopular } = post;
 
-## 8. Alur Data Pergerakan (Step-by-step)
+  return (
+    <article className={`post-card ${isPopular ? 'popular' : ''}`}>
+      <h3>{title}</h3>
+      <span>By {author}</span>
+      <span>{likes} likes</span>
+    </article>
+  );
+};
+```
 
-1. Browser buka halaman -> `App.jsx` mount.
-2. `App.jsx` panggil `fetchUsers` + `fetchPosts`.
-3. `api.js` kirim request ke backend.
-4. `server.js` proses data dan kirim response JSON.
-5. `api.js` ambil `response.data.data` dan return.
-6. `App.jsx` simpan ke state (`users`, `posts`).
-7. `App.jsx` kirim data ke `Header` dan `Dashboard`.
-8. `Dashboard` filter/search posts, lalu map ke card.
-9. `UserCard` dan `PostCard` render ke tampilan.
+Artinya: komponen card fokus menampilkan data, bukan ambil data.
 
-Selesai: data bergerak satu arah dari API -> state -> props -> komponen UI.
+## 8. Alur Data Step-by-Step (Paling Praktis)
+
+1. Halaman dibuka -> `App` mount.
+2. `useEffect` di `App` jalan -> panggil `fetchUsers` + `fetchPosts`.
+3. `api.js` request ke endpoint backend.
+4. `server.js` olah data lalu kirim response.
+5. `App` simpan response ke state.
+6. `App` kirim data ke `Header` dan `Dashboard` via props.
+7. `Dashboard` filter/search data post.
+8. `.map()` merender `UserCard` dan `PostCard`.
+9. Data tampil di layar.
+
+Selesai: aliran data tetap satu arah, jadi debugging lebih mudah.
