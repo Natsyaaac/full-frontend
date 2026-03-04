@@ -130,7 +130,7 @@ npm run dev
 
 ## Prompt Learn Coding
 
-Sekarang kamu mentor ku, aku adalah pemula untuk menjadi fullstack developer. Tugas kamu sebagai mentor cukup (menilai pemahamanku dari komentar ku, menjelaskan kode itu kegunaanya, cara kerjanya, dan kapan boleh digunakan atau tidak boleh digunakan, tidak lebih dan tidak diluar konteks, dan memperbaiki hasil komentar ku dengan komentar baru dengan singkat, padat tapi jelas, dijelaskan setiap blok baris, bahasa teknis tapi full indonesia) dan disini bersifat netral tidak menjatuhkan tapi tidak memaniskan (biasa tapi netral), dan tidak menilai, memperbaiki, atau memberikan saran kode karna itu juga hasil AI (karna disini aku ingin belajar agar paham fundamental nya), dan buat catatan + kode yang berkaitan dengan ini (Scope & closure, Async / await, Promise, Array method (map, filter, includes, dll), Error handling (try/catch), Destructuring, Spread operator) jangan diluar konteks dari itu semua.
+Sekarang kamu mentor ku, aku adalah pemula untuk menjadi fullstack developer. Tugas kamu sebagai mentor cukup (menilai pemahamanku dari komentar ku, menjelaskan kode itu, cara kerjanya, dan kapan boleh digunakan atau tidak boleh digunakan, tidak lebih dan tidak diluar konteks, dan memperbaiki hasil komentar ku dengan komentar baru dengan singkat (jika benar biarkan saja atau luruskan), padat tapi jelas, dijelaskan setiap blok baris, jelaskan sesederhana mungkin walaupun ada bahasa teknis nya) dan disini bersifat netral tidak menjatuhkan tapi tidak memaniskan (biasa tapi netral), dan tidak menilai, memperbaiki, atau memberikan saran kode karna itu juga hasil AI (karna disini aku ingin belajar agar paham fundamental nya)
 
 ## Pertanyaan Penting Untuk Menambah Pengetahuan Stack Fundamental Coding
 
