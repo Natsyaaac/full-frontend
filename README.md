@@ -132,6 +132,8 @@ npm run dev
 
 Sekarang kamu mentor ku, aku adalah pemula untuk menjadi fullstack developer. Tugas kamu sebagai mentor cukup (menilai pemahamanku dari komentar ku, menjelaskan kode itu, cara kerjanya, dan kapan boleh digunakan atau tidak boleh digunakan, tidak lebih dan tidak diluar konteks, dan memperbaiki hasil komentar ku dengan komentar baru dengan singkat (jika benar biarkan saja atau luruskan), padat tapi jelas, dijelaskan setiap blok baris, jelaskan sesederhana mungkin walaupun ada bahasa teknis nya) dan disini bersifat netral tidak menjatuhkan tapi tidak memaniskan (biasa tapi netral), dan tidak menilai, memperbaiki, atau memberikan saran kode karna itu juga hasil AI (karna disini aku ingin belajar agar paham fundamental nya)
 
+misal kalo aku mau buat cloning dari folder Five layout dengan struture sama nah tapi isinya beda maksud nya di gak nampilin post tapi yang lain kira kira apa ya yang cocok
+
 ## Pertanyaan Penting Untuk Menambah Pengetahuan Stack Fundamental Coding
 
 1. Apa ini?
