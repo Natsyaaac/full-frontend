@@ -1,4 +1,4 @@
-import SSHH from './component/FiveLay/App'
+import SSHH from './component/SixLay/App'
 
 function App() {
 
