@@ -71,7 +71,7 @@ html {
 
 body {
   line-height: 1.6;
-  background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
-  color: #2d3748;
-  max-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: var(--dark-color);
+  min-height: 100vh;
 }
