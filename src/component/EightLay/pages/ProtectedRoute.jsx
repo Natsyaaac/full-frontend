@@ -1,5 +1,14 @@
-const ProtectedRoute = () => {
-  return <div>ProtectedRoute</div>;
-};
+import React from "react";
+import { Navigate } from "react-router-dom";
+import '../App.css'
 
-export default ProtectedRoute;
+
+const ProtectedRoute = ({ children, isAuthenticated }) => {
+  if (!isAuthenticated) {
+    return <Navigate to='/login' replace />
+  }
+
+  return children
+}
+
+export default ProtectedRoute

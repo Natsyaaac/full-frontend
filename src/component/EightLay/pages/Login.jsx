@@ -5,10 +5,15 @@ import '../App.css'
 
 
 const Login = ({ setIsAuthenticated, setUser }) => {
-  const [formData, setFormData] = useState({})
+  const [formData, setFormData] = useState({
+    username: '',
+    password: ''
+  })
   const [errors, setErrors] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const [loginError, setLoginError] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -27,6 +32,18 @@ const Login = ({ setIsAuthenticated, setUser }) => {
         overide nama dengan yang baru 
       */
     }))
+
+    if (errors[name]) {
+      setErrors(prev => {
+        const newErrors = { ...prev }
+        delete newErrors[name]
+        return newErrors
+      })
+    }
+
+    if (loginError) {
+      setLoginError('')
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -38,30 +55,32 @@ const Login = ({ setIsAuthenticated, setUser }) => {
       -console untuk debugging 
     */
     setErrors({})
+    setLoginError('')
+    setSuccessMessage('')
     // reset supaya eroro lama tidak muncul lagi 
     const newErrors = {}
     // untuk menyimpan error yang muncul 
 
-    if (formData.username !== "admin" && formData.username !== "user") {
+    if (!formData.username || formData.username.trim() === '') {
+      newErrors.username = "Username tidak boleh kosong"
+    } else if (formData.username !== "admin" && formData.username !== "user") {
       newErrors.username = "Username tidak ditemukan"
-
-      /* 
-        - pengecekan jika admin atau user tidak sama dengan inputan tampilkan error 
-      */
     }
 
-    else {
-      if (
-        (formData.username === "admin" && formData.password !== "admin123") ||
-        (formData.username === "user" && formData.password !== "user123")
-      ) {
+    if (!formData.password || formData.password.trim() === '') {
+      newErrors.password = "Password tidak boleh kosong"
+    } else {
+      // Cek password hanya jika username valid
+      if (formData.username === "admin" && formData.password !== "admin123") {
         newErrors.password = "Password salah"
+      } else if (formData.username === "user" && formData.password !== "user123") {
+        newErrors.password = "Password salah"
+      } else if (formData.username !== "admin" && formData.username !== "user") {
+        // Jika username salah, jangan cek password
+        // Biarkan error username yang muncul
       }
-
-      /* 
-        - pengecekan jika username valid tapi passowrd salah tampilkan errors
-      */
     }
+
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
@@ -77,6 +96,7 @@ const Login = ({ setIsAuthenticated, setUser }) => {
 
     setIsLoading(true)
     setLoginError('')
+    setSuccessMessage('Sedang memproses login')
     /* 
       -mengaktifkan loading 
       -membuat error menjadi tidak 
@@ -90,7 +110,8 @@ const Login = ({ setIsAuthenticated, setUser }) => {
         {
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          timeout: 5000
         }
         /*
           -mengirim http post request ke endpoint login menggunakan axios 
@@ -105,6 +126,7 @@ const Login = ({ setIsAuthenticated, setUser }) => {
       */
 
       if (response.data && response.data.success) {
+        setSuccessMessage('Login Berhasil Mengalihkan...')
         console.log('4. Login sukses, menyimpan data...')
 
         localStorage.setItem('token', response.data.data.token)
@@ -114,7 +136,9 @@ const Login = ({ setIsAuthenticated, setUser }) => {
         setIsAuthenticated(true)
         console.log('5. Redirect ke dashboard...')
 
-        navigate('/')
+        setTimeout(() => {
+          navigate('/', { replace: true })
+        }, 1000)
 
         /* 
           - debugin untuk jika user berhasil login 
@@ -126,6 +150,7 @@ const Login = ({ setIsAuthenticated, setUser }) => {
       } else {
         console.log('Login gagal:', response.data.message)
         setLoginError(response.data.message || 'Login gagal')
+        setSuccessMessage('')
 
         /*
           - debugging jika user gagal login  
@@ -134,11 +159,14 @@ const Login = ({ setIsAuthenticated, setUser }) => {
       }
     } catch (error) {
       console.error('Error detail: ', error)
+      setSuccessMessage('')
       /* 
         - menangkap error yang terjadi pada request http dan menampilkan pesan error setelah error terjadi
       */
-      if (error.response) {
-        setLoginError('Login gagal')
+      if (error.code === 'ECONNABORTED') {
+        setLoginError('Koneksi timeOut. Pastikan server nyala')
+      } else if (error.response) {
+        setLoginError(error.response.data.message || 'Login gagal')
         /* 
           - pengecekan jika error disebabkan mengirim response server tampilkan pesan error data, atau pesat teks error (||)
         */
@@ -204,6 +232,12 @@ const Login = ({ setIsAuthenticated, setUser }) => {
               <p>👤 User: <strong>user</strong>/<strong>user123</strong></p>
             </div>
 
+            {successMessage && (
+              <div className="success-message">
+                ✅ {successMessage}
+              </div>
+            )}
+
             {loginError && (
               <div className="login-error">
                 ❌ {loginError}
@@ -260,7 +294,8 @@ const Login = ({ setIsAuthenticated, setUser }) => {
               </button>
 
               <div className="login-footer">
-                <a href="#">or create account</a>
+                <a href="#">Create account</a>
+                <a href="#">Forgot Password?</a>
               </div>
             </form>
           </div>
