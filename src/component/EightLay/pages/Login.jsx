@@ -125,7 +125,7 @@ const Login = ({ setIsAuthenticated, setUser }) => {
         - console untuk debug response server dan response data yang dikirimkan 
       */
 
-      if (response.data && response.data.success) {
+      if (response.status === 200 && response.data) {
         setSuccessMessage('Login Berhasil Mengalihkan...')
         console.log('4. Login sukses, menyimpan data...')
 

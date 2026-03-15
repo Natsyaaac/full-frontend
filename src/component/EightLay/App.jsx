@@ -4,6 +4,7 @@ import "./App.css";
 import Login from './pages/Login'
 import ProtectedRoute from './pages/ProtectedRoute';
 import Layout from './pages/Layout'
+import Home from './pages/Home'
 
 
 const App = () => {
@@ -76,7 +77,7 @@ const App = () => {
           <Route path='/' element={
             <ProtectedRoute isAuthenticated={isAuthenticated} >
               <Layout user={user}>
-                <div className="Home">Home</div>
+                <Home /> 
               </Layout>
             </ProtectedRoute>
           } />
