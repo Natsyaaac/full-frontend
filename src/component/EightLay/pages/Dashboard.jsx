@@ -17,7 +17,7 @@ const Dashboard = () => {
   })
 
   useEffect(() => {
-    fetchTasks(setLoading, setError, setTasks)
+    fetchTasks({ setLoading, setError, setTasks })
 
     console.log('1. Start useEffect')
     Promise.resolve().then(() => {
@@ -53,7 +53,7 @@ const Dashboard = () => {
       return
     }
 
-    await handleAddTask(newTask, setTasks, setError)
+    await handleAddTask({newTask, setTasks, setError})
   }
 
   const handleUpdateSubmit = async (e) => {
@@ -64,7 +64,7 @@ const Dashboard = () => {
       return
     }
 
-    await handleUpdateTask(id, updates, setError, setTasks)
+    await handleUpdateTask({id, updates, setError, setTasks})
   }
 
   const handleDeleteSubmit = async (e) => {
@@ -75,7 +75,7 @@ const Dashboard = () => {
       return
     }
 
-    await handleDeleteTask(id, setError, setTasks)
+    await handleDeleteTask({id, setError, setTasks})
   }
 
   const filteredTasks = tasks
@@ -104,7 +104,71 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="p">p</div>
+    <div className="dashboard">
+      <div className="dashboard-header">
+        <h1>Task Dashboard</h1>
+        <p>Manage your tasks efficiently</p>
+
+        <div className="stats-grid">
+          <div className="stat-card total">
+            <h3>Total Task</h3>
+            <p className="stat-number">{stats.total}</p>
+          </div>
+          <div className="stat-card completed">
+            <h3>Completed</h3>
+            <p className="stat-number">{stats.completed}</p>
+          </div>
+          <div className="stat-card pending">
+            <h3>Pending</h3>
+            <p className="stat-number">{stats.pending}</p>
+          </div>
+          <div className="stat-card high-priority">
+            <h3>High Priority</h3>
+            <p className="stat-number">{stats.highPriority}</p>
+          </div>
+        </div>
+
+
+
+        {error && (
+          <div className="error-message-dashboard">
+            <p>{error}</p>
+            <button onClick={() => fetchTasks({ setLoading, setError, setTasks })}>Retry</button>
+          </div>
+        )}
+
+        <div className="seacrh-filter-bar">
+          <input
+            type="text"
+            placeholder='Seacrh tasks...'
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className='search-input'
+          />
+
+          <div className="filter-buttons">
+            <button className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
+              onClick={() => setFilter('all')}
+            >
+              All
+            </button>
+            <button className={`filter-btn ${filter === 'completed' ? 'active' : ''}`}
+              onClick={() => setFilter('completed')}
+            >
+              Completed
+            </button>
+            <button className={`filter-btn ${filter === 'pending' ? 'active' : ''}`}
+              onClick={() => setFilter('pending')}
+            >
+              Pending
+            </button>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
   )
 };
 
