@@ -1,6 +1,8 @@
 import '../App.css'
 import React, { useEffect, useState } from 'react';
 import { fetchTasks, handleAddTask, handleUpdateTask, handleDeleteTask } from '../utils/api'
+import TaksForm from './TaskForm'
+import TaskForm from './TaskForm';
 
 
 const Dashboard = () => {
@@ -165,6 +167,7 @@ const Dashboard = () => {
           </div>
         </div>
 
+        <TaskForm onAddTask={handleAddSubmit} />
 
 
       </div>
