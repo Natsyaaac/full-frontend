@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-export const fetchTasks = async ({setLoading, setError, setTasks}) => {
+export const fetchTasks = async ({ setLoading, setError, setTasks }) => {
   try {
     setLoading(true)
     setError(null)
@@ -26,7 +26,7 @@ export const fetchTasks = async ({setLoading, setError, setTasks}) => {
   }
 }
 
-export const handleAddTask = async ({newTask, setTasks, setError}) => {
+export const handleAddTask = async ({ newTask, setTasks, setError }) => {
   try {
     const { data } = await axios.post('http://localhost:3001/api/tasks',
       // Implementasi spread operator
@@ -50,7 +50,7 @@ export const handleAddTask = async ({newTask, setTasks, setError}) => {
   }
 }
 
-export const handleUpdateTask = async ({id, updates, setError, setTasks}) => {
+export const handleUpdateTask = async ({ id, updates, setError, setTasks }) => {
   try {
     const { data } = await axios.put(`http://localhost:3001/api/tasks/${id}`,
       updates,
@@ -70,13 +70,13 @@ export const handleUpdateTask = async ({id, updates, setError, setTasks}) => {
       )
     }
   } catch (err) {
-    setError('Failed to updates task')
+    if (setError) setError('Failed to updates task')
     console.error('Error updating task:', err)
   }
 }
 
 
-export const handleDeleteTask = async ({id, setError, setTasks}) => {
+export const handleDeleteTask = async ({ id, setError, setTasks }) => {
   try {
     const { data } = await axios.delete(`http://localhost:3001/api/tasks/${id}`, {
       headers: {
@@ -86,7 +86,7 @@ export const handleDeleteTask = async ({id, setError, setTasks}) => {
 
     if (data && data.data) {
       setTasks(prevTask => prevTask.filter(task => task.id !== id))
-    } 
+    }
   } catch (err) {
     setError('Failed to delete task')
     console.error('Error deleting task:', err)

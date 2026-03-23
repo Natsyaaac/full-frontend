@@ -47,8 +47,7 @@ const Dashboard = () => {
     setStats(newStats)
   }
 
-  const handleAddSubmit = async (e) => {
-    e.preventDefault()
+  const handleAddSubmit = async (newTask, setTasks, setError) => {
 
     if (!newTask.title.trim()) {
       setError('Title is required')
@@ -58,8 +57,7 @@ const Dashboard = () => {
     await handleAddTask({ newTask, setTasks, setError })
   }
 
-  const handleUpdateSubmit = async (e) => {
-    e.preventDefault()
+  const handleUpdateSubmit = async (id, updates, setError, setTasks) => {
 
     if (!id) {
       setError('Data tidak ditemukan')
@@ -69,8 +67,7 @@ const Dashboard = () => {
     await handleUpdateTask({ id, updates, setError, setTasks })
   }
 
-  const handleDeleteSubmit = async (e) => {
-    e.preventDefault()
+  const handleDeleteSubmit = async (id, setError, setTasks) => {
 
     if (!id) {
       console.error('ID tidak ditemukan')
@@ -173,6 +170,8 @@ const Dashboard = () => {
           tasks={filteredTasks}
           onUpdateTask={handleUpdateSubmit}
           onDeleteTask={handleDeleteSubmit}
+          setError={setError}
+          setTasks={setTasks}
         />
       </div>
     </div>

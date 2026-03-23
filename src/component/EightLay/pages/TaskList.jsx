@@ -2,7 +2,7 @@ import React from 'react'
 import Taskitem from './TaskItem'
 import '../App.css'
 
-const TaskList = ({ tasks, onUpdateTask, onDeleteTask }) => {
+const TaskList = ({ tasks, onUpdateTask, onDeleteTask, setError, setTasks }) => {
   if (!tasks || tasks.length === 0) {
     return (
       <div className="task-list-empty">
@@ -18,11 +18,13 @@ const TaskList = ({ tasks, onUpdateTask, onDeleteTask }) => {
   return (
     <div className="task-list">
       {tasks.map(task => (
-        <Taskitem 
+        <Taskitem
           key={task.id}
           task={task}
           onUpdateTask={onUpdateTask}
           onDeleteTask={onDeleteTask}
+          setError={setError}
+          setTasks={setTasks}
         />
       ))}
     </div>

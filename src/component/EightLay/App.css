@@ -703,4 +703,27 @@
   transform: translateY(0);
 }
 
+/* ====================== List Task ====================== */
+.task-list-empty {
+  text-align: center;
+  padding: 3rem;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
 
+.task-list-empty svg {
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.task-list-empty h3 {
+  color: var(--dark-color);
+  margin-bottom: 0.5rem;
+}
+
+.task-list-empty p {
+  color: var(--gray-color);
+}
+
+/* ====================== List Item ====================== */
