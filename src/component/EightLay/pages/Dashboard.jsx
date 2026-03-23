@@ -1,7 +1,7 @@
 import '../App.css'
 import React, { useEffect, useState } from 'react';
 import { fetchTasks, handleAddTask, handleUpdateTask, handleDeleteTask } from '../utils/api'
-import TaksForm from './TaskForm'
+import TaskList from './TaskList'
 import TaskForm from './TaskForm';
 
 
@@ -55,7 +55,7 @@ const Dashboard = () => {
       return
     }
 
-    await handleAddTask({newTask, setTasks, setError})
+    await handleAddTask({ newTask, setTasks, setError })
   }
 
   const handleUpdateSubmit = async (e) => {
@@ -66,7 +66,7 @@ const Dashboard = () => {
       return
     }
 
-    await handleUpdateTask({id, updates, setError, setTasks})
+    await handleUpdateTask({ id, updates, setError, setTasks })
   }
 
   const handleDeleteSubmit = async (e) => {
@@ -77,7 +77,7 @@ const Dashboard = () => {
       return
     }
 
-    await handleDeleteTask({id, setError, setTasks})
+    await handleDeleteTask({ id, setError, setTasks })
   }
 
   const filteredTasks = tasks
@@ -169,7 +169,11 @@ const Dashboard = () => {
 
         <TaskForm onAddTask={handleAddSubmit} />
 
-
+        <TaskList
+          tasks={filteredTasks}
+          onUpdateTask={handleUpdateSubmit}
+          onDeleteTask={handleDeleteSubmit}
+        />
       </div>
     </div>
   )
