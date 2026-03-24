@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../App.css'
 
-const TaskForm = ({ onAddTask }) => {
+const TaskForm = ({ onAddTask, setError, setTasks }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -50,7 +50,7 @@ const TaskForm = ({ onAddTask }) => {
     }
 
     try {
-      await onAddTask(formData)
+      await onAddTask(formData, setError, setTasks)
 
       setFormData({
         title: '',

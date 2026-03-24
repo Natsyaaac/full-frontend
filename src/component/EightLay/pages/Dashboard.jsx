@@ -164,7 +164,11 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <TaskForm onAddTask={handleAddSubmit} />
+        <TaskForm
+          onAddTask={handleAddSubmit}
+          setError={setError}
+          setTasks={setTasks}
+        />
 
         <TaskList
           tasks={filteredTasks}

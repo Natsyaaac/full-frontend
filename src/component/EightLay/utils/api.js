@@ -40,7 +40,10 @@ export const handleAddTask = async ({ newTask, setTasks, setError }) => {
     )
 
     if (data && data.data) {
-      setTasks(prevTask => [...prevTask, data.data])
+      setTasks(prevTask => {
+        if(!Array.isArray(prevTask)) return [data.data]
+        return [...prevTask, data.data]
+      })
       return data
     }
   } catch (error) {

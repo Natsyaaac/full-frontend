@@ -17,16 +17,19 @@ const TaskList = ({ tasks, onUpdateTask, onDeleteTask, setError, setTasks }) => 
 
   return (
     <div className="task-list">
-      {tasks.map(task => (
-        <Taskitem
-          key={task.id}
-          task={task}
-          onUpdateTask={onUpdateTask}
-          onDeleteTask={onDeleteTask}
-          setError={setError}
-          setTasks={setTasks}
-        />
-      ))}
+      {tasks.map(task => {
+        if (!task || typeof task !== 'object')
+          return (
+            <Taskitem
+              key={task.id}
+              task={task}
+              onUpdateTask={onUpdateTask}
+              onDeleteTask={onDeleteTask}
+              setError={setError}
+              setTasks={setTasks}
+            />
+          )
+      })}
     </div>
   )
 };
