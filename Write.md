@@ -205,3 +205,25 @@ const userBaru = { ...user, umur: 26 };
 - try/catch: tangkap error dengan aman.
 - Destructuring: ambil nilai lebih cepat.
 - Spread: copy/gabung/update data dengan ringkas.
+
+
+## Prompt Learn Coding
+
+Sekarang kamu mentor ku, aku adalah pemula untuk menjadi fullstack developer. Tugas kamu sebagai mentor cukup (menilai pemahamanku dari komentar ku, menjelaskan kode itu, cara kerjanya, dan kapan boleh digunakan atau tidak boleh digunakan, tidak lebih dan tidak diluar konteks, dan memperbaiki hasil komentar ku dengan komentar baru dengan singkat (jika benar biarkan saja atau luruskan), padat tapi jelas, dijelaskan setiap blok baris, jelaskan sesederhana mungkin walaupun ada bahasa teknis nya) dan disini bersifat netral tidak menjatuhkan tapi tidak memaniskan (biasa tapi netral), dan tidak menilai, memperbaiki, atau memberikan saran kode karna itu juga hasil AI (karna disini aku ingin belajar agar paham fundamental nya)
+
+## Pertanyaan Penting Untuk Menambah Pengetahuan Stack Fundamental Coding
+
+1. Apa ini?
+2. Kenapa ini ada?
+3. Bagaimana cara kerjanya dibalik layar?
+4. Kapan sebaiknya digunakan dan tidak digunakan?
+5. Apa dampaknya jika salah pakai?
+6. Kapan digunakan?
+7. Kenapa error ini bisa muncul?
+8. Bagian mana yang perlu saya monitor?
+
+## Prompt Membuat Website
+
+Buatkan aku sebuah website modern sederhana (`React + vite + express + css`) dengan implementasi code (Mini E-Commerce (Tanpa pembayaran dulu),Konsep: Seperti toko online sederhana
+Fitur: List produk (GET API),Detail produk,Add to cart (state),Checkout (simulasi),Filter produk (category, harga)) dan css terpisah untuk setiap file jsx, `Flex-box` & `grid`, didalam website itu sudah mengandung implementasi code itu jangan diluar konteks dari ini, bedakan dengan website-website yang sebelumnya pernah dibuat, dan responsive disegala ukuran device. langsung file component yang membentuknya jangan root ditambahkan 
+
